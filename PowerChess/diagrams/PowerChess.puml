@@ -1,0 +1,121 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface EstadoPieza{
+    + verificarMovimiento(xDestino: int, yDestino: int): boolean
+}
+
+class Peon implements EstadoPieza{
+    + verificarMovimiento(xDestino: int, yDestino: int): boolean
+}
+
+class Torre implements EstadoPieza{
+    + verificarMovimiento(xDestino: int, yDestino: int): boolean
+}
+
+class Caballo implements EstadoPieza{
+    + verificarMovimiento(xDestino: int, yDestino: int): boolean
+}
+
+class Alfil implements EstadoPieza{
+    + verificarMovimiento(xDestino: int, yDestino: int): boolean
+}
+
+class Reina implements EstadoPieza{
+    + verificarMovimiento(xDestino: int, yDestino: int): boolean
+}
+
+class Rey implements EstadoPieza{
+    + verificarMovimiento(xDestino: int, yDestino: int): boolean
+}
+
+interface Color{
+}
+
+class Blanco implements Color{}
+
+class Negro implements Color{}
+
+
+class Pieza{
+    - x: int
+    - y: int
+    - poderAplicado: Poder
+    + mover(xDestino: int, yDestino: int)
+}
+
+Pieza --> EstadoPieza
+
+class Tablero{
+    - cuadricula: int[][]
+    + moverPieza(unaPieza: Pieza, xDestino: int, yDestino: int)
+}
+
+Jugador ..> Tablero
+
+
+Tablero *-- Pieza
+
+class Jugador{
+    - color: Color
+    -poderes: Poder
+    + moverPieza(unaPieza: Pieza, xDestino: int, yDestino: int)
+    + activarPoder(unPoder: Poder)
+}
+
+class Partida{
+    + iniciar()
+    + terminar()
+}
+
+interface Poder{
+    + activar()
+}
+
+interface PoderDeDuracion implements Poder {
+    + activar()
+}
+
+interface PoderDeAccion implements Poder {
+    + activar()
+}
+
+
+class Freeze implements PoderDeDuracion{
+    - duracion: int
+    + activar()
+}
+
+class Escudo implements PoderDeDuracion{
+    - duracion: int
+    + activar()
+}
+
+class DobleJuego implements PoderDeAccion{
+    + activar()
+}
+
+class Vuelo implements PoderDeAccion{
+    + activar()
+}
+
+class RobarPoder implements PoderDeAccion{
+    + activar()
+}
+
+class Limpieza implements PoderDeAccion{
+    + activar()
+}
+
+class Evolucion implements Poder{
+    + activar()
+}
+
+class Controlador{}
+
+class Vista{}
+
+
+
+
+@enduml
