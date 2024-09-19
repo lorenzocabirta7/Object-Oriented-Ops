@@ -41,14 +41,25 @@ class Pieza{
     - x: int
     - y: int
     - poderAplicado: Poder
+    - color: Color
     + mover(xDestino: int, yDestino: int)
+    + cambiarEstado(nuevoEstado: EstadoPieza)
+    + aplicarPoder(poder: Poder)
 }
 
 Pieza --> EstadoPieza
 
 class Tablero{
-    - cuadricula: int[][]
-    + moverPieza(unaPieza: Pieza, xDestino: int, yDestino: int)
+    - cuadricula: Pieza[][]
+    - inicializarPiezas()
+    - inicializarPiezasEspeciales(fila: int, color: Color)
+    - posicionDentroDelTablero(x: int, y: int): boolean
+
+    + moverPieza(pieza: Pieza, xDestino: int, yDestino: int)
+    + casillaVacia(x: int, y: int)
+    + hayPiezaEnemiga(x: int, y: int, color: Color)
+    + hayObstaculosEntre(xOrigen: int, yOrigen: int, xDestino: int, yDestino: int)
+    + obtenerPieza(x: int, y: int): Pieza
 }
 
 Jugador ..> Tablero
@@ -60,7 +71,6 @@ class Jugador{
     - color: Color
     -poderes: Poder
     + moverPieza(unaPieza: Pieza, xDestino: int, yDestino: int)
-    + activarPoder(unPoder: Poder)
 }
 
 class Partida{
@@ -69,42 +79,42 @@ class Partida{
 }
 
 interface Poder{
-    + activar()
+    + activar(pieza: Pieza)
 }
 
-interface PoderDeDuracion implements Poder {
-    + activar()
+abstract class PoderDeDuracion implements Poder {
+    + activar(pieza: Pieza)
 }
 
-interface PoderDeAccion implements Poder {
-    + activar()
+abstract class PoderDeAccion implements Poder {
+    + activar(pieza: Pieza))
 }
 
 
 class Freeze implements PoderDeDuracion{
     - duracion: int
-    + activar()
+    + activar(pieza: Pieza)
 }
 
 class Escudo implements PoderDeDuracion{
     - duracion: int
-    + activar()
+    + activar(pieza: Pieza)
 }
 
 class DobleJuego implements PoderDeAccion{
-    + activar()
+    + activar(pieza: Pieza)
 }
 
 class Vuelo implements PoderDeAccion{
-    + activar()
+    + activar(pieza: Pieza)
 }
 
 class RobarPoder implements PoderDeAccion{
-    + activar()
+    + activar(pieza: Pieza)
 }
 
 class Limpieza implements PoderDeAccion{
-    + activar()
+    + activar(pieza: Pieza)
 }
 
 class Evolucion implements Poder{
@@ -115,7 +125,20 @@ class Controlador{}
 
 class Vista{}
 
-
+class Jugador{
+    - color: Color
+    - nombre: String
+    - poderes: List<Poder>
+    + moverPieza(unaPieza: Pieza, xDestino: int, yDestino: int, tablero: Tablero)
+    + activarPoder(poder: Poder, pieza: Pieza)
+    + ofrecerTablas()
+    + rendirse()
+    + agregarPoder(poder: Poder)
+    + removerPoder(poder: Poder)
+    + ofrecerTablas(juego: Juego)
+    + responderTablas(juego: Juego, acepta: boolean)
+    + rendirse(juego: Juego)
+}
 
 
 @enduml

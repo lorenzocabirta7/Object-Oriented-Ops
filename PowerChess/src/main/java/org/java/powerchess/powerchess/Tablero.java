@@ -2,23 +2,23 @@ package org.java.powerchess.powerchess;
 
 public class Tablero {
     private Pieza[][] casillas;
-    private final int tamaño = 8; // Tamaño del tablero de ajedrez estándar
+    private final int tamanio = 8; // Tamaño del tablero de ajedrez estándar
 
     public Tablero() {
-        casillas = new Pieza[tamaño][tamaño];
+        casillas = new Pieza[tamanio][tamanio];
         inicializarPiezas();
     }
 
     private void inicializarPiezas() {
         //Peones
-        for (int i = 0; i < tamaño; i++) {
-            casillas[i][1] = new Pieza(i, 1, new Peon(), Blanco.BLANCO);
-            casillas[i][6] = new Pieza(i, 6, new Peon(), Negro.NEGRO);
+        for (int i = 0; i < tamanio; i++) {
+            casillas[i][1] = new Pieza(i, 1, new Peon(), new Blanco());
+            casillas[i][6] = new Pieza(i, 6, new Peon(), new Negro());
         }
 
         //Resto de piezas
-        inicializarPiezasEspeciales(0, Blanco.BLANCO);
-        inicializarPiezasEspeciales(7, Negro.NEGRO);
+        inicializarPiezasEspeciales(0, new Blanco());
+        inicializarPiezasEspeciales(7, new Negro());
     }
 
     private void inicializarPiezasEspeciales(int fila, Color color) {
@@ -85,11 +85,7 @@ public class Tablero {
     }
 
     private boolean posicionDentroDelTablero(int x, int y) {
-        return x >= 0 && x < tamaño && y >= 0 && y < tamaño;
-    }
-
-    public int getSize() {
-        return tamaño;
+        return x >= 0 && x < tamanio && y >= 0 && y < tamanio;
     }
 }
 

@@ -5,7 +5,7 @@ public class Peon implements EstadoPieza {
 
     @Override
     public boolean verificarMovimiento(int xOrigen, int yOrigen, int xDestino, int yDestino, Tablero tablero) {
-        int direccion = (tablero.obtenerPieza(xOrigen, yOrigen).getColor() == Blanco.BLANCO) ? 1 : -1; //Dirección basada en el color del peon
+        int direccion = (tablero.obtenerPieza(xOrigen, yOrigen).getColor().equals(new Blanco()) ? 1 : -1); //Dirección basada en el color del peon
 
         //Movimiento simple hacia adelante
         if (xDestino == xOrigen && yDestino == yOrigen + direccion) {
