@@ -1,5 +1,8 @@
 package org.java.powerchess.powerchess;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Jugador {
     private String nombre;
     private Color color;
@@ -36,7 +39,7 @@ public class Jugador {
         }
     }
 
-    public void ofrecerTablas(Juego juego) {
+    /*public void ofrecerTablas(Juego juego) {
         juego.ofrecerTablas(this);
     }
 
@@ -46,7 +49,7 @@ public class Jugador {
 
     public void rendirse(Juego juego) {
         juego.rendirse(this);
-    }
+    }*/
 
     public String getNombre() {
         return nombre;
