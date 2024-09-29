@@ -15,41 +15,21 @@ public class Jugador {
     }
 
     public boolean moverPieza(Pieza pieza, int xDestino, int yDestino, Tablero tablero) {
-        if (pieza.getColor() != this.color) {
-            System.out.println("No puedes mover una pieza del oponente.");
-            return false;
-        }
+        int xOrigen = tablero.obtenerPosicionX(pieza);
+        int yOrigen = tablero.obtenerPosicionY(pieza);
 
-        if (tablero.moverPieza(pieza, xDestino, yDestino)) {
-            return true;
-        } else {
-            System.out.println("Movimiento no válido.");
-            return false;
-        }
+        return tablero.moverPieza(pieza, xOrigen, yOrigen, xDestino, yDestino);
     }
+
 
     public boolean activarPoder(Poder poder, Pieza pieza) {
         if (poderes.contains(poder)) {
             poder.activar(pieza);
             poderes.remove(poder);
             return true;
-        } else {
-            System.out.println("No tienes este poder disponible.");
-            return false;
         }
+        return false;
     }
-
-    /*public void ofrecerTablas(Juego juego) {
-        juego.ofrecerTablas(this);
-    }
-
-    public void responderTablas(Juego juego, boolean acepta) {
-        juego.responderTablas(this, acepta);
-    }
-
-    public void rendirse(Juego juego) {
-        juego.rendirse(this);
-    }*/
 
     public String getNombre() {
         return nombre;
@@ -62,10 +42,4 @@ public class Jugador {
     public void agregarPoder(Poder poder) {
         poderes.add(poder);
     }
-
-    public void removerPoder(Poder poder) {
-        poderes.remove(poder);
-    }
-
 }
-

@@ -1,4 +1,5 @@
 package org.java.powerchess.powerchess;
 
-public interface Color {
+public enum Color {
+    BLANCO, NEGRO;
 }

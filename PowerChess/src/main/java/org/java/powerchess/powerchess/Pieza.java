@@ -1,46 +1,44 @@
 package org.java.powerchess.powerchess;
 
 public class Pieza {
-    private int x;
-    private int y;
-    private EstadoPieza estadoPieza; // Estado actual de la pieza
     private Color color;
-    //private Poder poderAplicado;
+    private EstadoPieza estadoPieza;
+    private boolean congelada;
+    private boolean escudada;
 
-    public Pieza(int x, int y, EstadoPieza estadoPieza, Color color) {
-        this.x = x;
-        this.y = y;
-        this.estadoPieza = estadoPieza; // Estado inicial
+    public Pieza(Color color, EstadoPieza estadoPieza) {
         this.color = color;
+        this.estadoPieza = estadoPieza;
     }
 
-    public boolean mover(int xDestino, int yDestino, Tablero tablero) {
-        if (estadoPieza.verificarMovimiento(x, y, xDestino, yDestino, tablero)) {
-            this.x = xDestino;
-            this.y = yDestino;
+    public boolean mover(int xOrigen, int yOrigen, int xDestino, int yDestino, Tablero tablero) {
+        if (!congelada && estadoPieza.verificarMovimiento(xOrigen, yOrigen, xDestino, yDestino, tablero)) {
             return true;
         }
         return false;
     }
 
-    public void cambiarEstado(EstadoPieza nuevoEstado) {
-        this.estadoPieza = nuevoEstado;
-    }
-
-    /*public void aplicarPoder(Poder poder) {
-        this.poderAplicado = poder;
-        poder.activar(this);
-    }*/
-
     public Color getColor() {
         return color;
     }
 
-    public int getX() {
-        return x;
+    public boolean estaProtegida() {
+        return escudada;
     }
 
-    public int getY() {
-        return y;
+    public void setCongelada(boolean congelada) {
+        this.congelada = congelada;
+    }
+
+    public void setEscudada(boolean escudada) {
+        this.escudada = escudada;
+    }
+
+    public boolean esRey() {
+        return estadoPieza.esRey();
+    }
+
+    public boolean esTorre() {
+        return estadoPieza.esTorre();
     }
 }

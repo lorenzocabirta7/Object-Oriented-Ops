@@ -5,9 +5,9 @@ public class Peon implements EstadoPieza {
 
     @Override
     public boolean verificarMovimiento(int xOrigen, int yOrigen, int xDestino, int yDestino, Tablero tablero) {
-        int direccion = (tablero.obtenerPieza(xOrigen, yOrigen).getColor().equals(new Blanco()) ? 1 : -1); //Dirección basada en el color del peon
+        int direccion = (tablero.obtenerPieza(xOrigen, yOrigen).getColor() == Color.BLANCO) ? 1 : -1;
 
-        //Movimiento simple hacia adelante
+        //Mover adelante
         if (xDestino == xOrigen && yDestino == yOrigen + direccion) {
             if (tablero.casillaVacia(xDestino, yDestino)) {
                 primerMovimiento = false;
@@ -15,7 +15,7 @@ public class Peon implements EstadoPieza {
             }
         }
 
-        //Primer movimiento dos casillas para adelante
+        //Primer movimiento de dos casillas
         if (primerMovimiento && xDestino == xOrigen && yDestino == yOrigen + 2 * direccion) {
             if (tablero.casillaVacia(xDestino, yDestino) && tablero.casillaVacia(xOrigen, yOrigen + direccion)) {
                 primerMovimiento = false;
@@ -23,7 +23,7 @@ public class Peon implements EstadoPieza {
             }
         }
 
-        //Comer en diagonal
+        //Comer
         if (Math.abs(xDestino - xOrigen) == 1 && yDestino == yOrigen + direccion) {
             if (tablero.hayPiezaEnemiga(xDestino, yDestino, tablero.obtenerPieza(xOrigen, yOrigen).getColor())) {
                 primerMovimiento = false;
