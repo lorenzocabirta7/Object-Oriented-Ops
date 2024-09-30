@@ -39,7 +39,15 @@ public class Jugador {
         return color;
     }
 
+    public List<Poder> getPoderes() { return poderes;}
+
     public void agregarPoder(Poder poder) {
         poderes.add(poder);
+    }
+
+    public void removerPoder(Poder poder) {
+        if (poderes.contains(poder)) {
+            poderes.remove(poder);
+        }
     }
 }

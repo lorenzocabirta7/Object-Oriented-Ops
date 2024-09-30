@@ -33,4 +33,9 @@ public class Peon implements EstadoPieza {
 
         return false;
     }
+
+    @Override
+    public boolean esPeon() {
+        return true;
+    }
 }

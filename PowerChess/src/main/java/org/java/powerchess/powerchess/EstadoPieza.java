@@ -10,4 +10,6 @@ public interface EstadoPieza {
     default boolean esTorre() {
         return false;
     }
+
+    default boolean esPeon() { return false; }
 }
