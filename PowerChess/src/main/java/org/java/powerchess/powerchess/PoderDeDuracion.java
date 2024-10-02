@@ -1,18 +1,14 @@
 package org.java.powerchess.powerchess;
 
 public abstract class PoderDeDuracion implements Poder {
-    private static final int TURNOS_REQUERIDOS = 2;
+    private final int CANTIDAD_DE_TURNOS = 3;
     private int turnos;
 
-    public PoderDeDuracion() { this.turnos = 0; }
+    public PoderDeDuracion() { this.turnos = CANTIDAD_DE_TURNOS; }
 
-    public PoderDeDuracion(int turnos) {
-        this.turnos = turnos;
-    }
+    public void disminuirTurnos() { if(turnos > 0){this.turnos--;} }
 
-    public void incrementarTurnos() { turnos += 1; }
+    public int getTurnos() { return this.turnos; }
 
-    public boolean verificarTurnos() { return turnos == TURNOS_REQUERIDOS; }
-
-    public int getTurnos() { return turnos; }
+    public abstract void desactivar(Pieza pieza);
 }

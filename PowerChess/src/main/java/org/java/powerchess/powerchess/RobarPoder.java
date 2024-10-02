@@ -3,7 +3,7 @@ import java.util.List;
 
 public class RobarPoder extends PoderDeAccion {
     public void activar(Pieza pieza) {
-        Jugador jugadorRival = jugador.getJugadorRival(); //agregar jugador como parametro de activar?
+        /*Jugador jugadorRival = jugador.getJugadorRival(); //agregar jugador como parametro de activar?
         List<Poder> poderesRival = jugadorRival.getPoderes();
 
         if (!poderesRival.isEmpty()) {
@@ -11,5 +11,6 @@ public class RobarPoder extends PoderDeAccion {
             jugador.agregarPoder(poderRobado);
             jugadorRival.removerPoder(poderRobado);
         }
+    }*/
     }
 }

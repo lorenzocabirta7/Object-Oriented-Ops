@@ -8,19 +8,25 @@ public class Juego {
     private boolean enJuego;
     private boolean tablasOfrecidas;
 
-    public Juego(Jugador jugadorBlanco, Jugador jugadorNegro) {
-        this.jugadorBlanco = jugadorBlanco;
-        this.jugadorNegro = jugadorNegro;
+    public Juego(Jugador jugador1, Jugador jugador2) {
+        if (jugador1.getColor() == Color.BLANCO) {
+            this.jugadorBlanco = jugador1;
+            this.jugadorNegro = jugador2;
+        } else {
+            this.jugadorBlanco = jugador2;
+            this.jugadorNegro = jugador1;
+        }
+
         this.tablero = new Tablero();
-        this.turnoActual = jugadorBlanco;
+        this.turnoActual = jugadorBlanco;  // Siempre empieza el jugador con piezas blancas
         this.enJuego = true;
         this.tablasOfrecidas = false;
     }
 
     public boolean moverPieza(Pieza pieza, int xDestino, int yDestino) {
         if (enJuego && turnoActual.getColor() == pieza.getColor()) {
-            int xOrigen = tablero.obtenerPosicionX(pieza);
-            int yOrigen = tablero.obtenerPosicionY(pieza);
+            int xOrigen = tablero.obtenerPosicion(pieza, true);
+            int yOrigen = tablero.obtenerPosicion(pieza, false);
             if (tablero.moverPieza(pieza, xOrigen, yOrigen, xDestino, yDestino)) {
                 cambiarTurno();
                 return true;
@@ -64,9 +70,7 @@ public class Juego {
     private void cambiarTurno() {
         turnoActual = (turnoActual == jugadorBlanco) ? jugadorNegro : jugadorBlanco;
         tablasOfrecidas = false;
-    }
-
-    public Jugador getTurnoActual() {
-        return turnoActual;
+        jugadorBlanco.actualizarPoderesDeDuracion();
+        jugadorNegro.actualizarPoderesDeDuracion();
     }
 }

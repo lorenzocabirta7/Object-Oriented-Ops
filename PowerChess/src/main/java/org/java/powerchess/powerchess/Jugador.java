@@ -12,23 +12,26 @@ public class Jugador {
         this.nombre = nombre;
         this.color = color;
         this.poderes = new ArrayList<>();
+        //Hardcodear poderes
     }
 
     public boolean moverPieza(Pieza pieza, int xDestino, int yDestino, Tablero tablero) {
-        int xOrigen = tablero.obtenerPosicionX(pieza);
-        int yOrigen = tablero.obtenerPosicionY(pieza);
+        int xOrigen = tablero.obtenerPosicion(pieza, true);
+        int yOrigen = tablero.obtenerPosicion(pieza, false);
 
         return tablero.moverPieza(pieza, xOrigen, yOrigen, xDestino, yDestino);
     }
 
 
-    public boolean activarPoder(Poder poder, Pieza pieza) {
+    public void activarPoder(Poder poder, Pieza pieza) {
         if (poderes.contains(poder)) {
             poder.activar(pieza);
             poderes.remove(poder);
-            return true;
         }
-        return false;
+    }
+
+    public void desactivarPoder(PoderDeDuracion poder, Pieza pieza) {
+        poder.desactivar(pieza);
     }
 
     public String getNombre() {
@@ -48,6 +51,18 @@ public class Jugador {
     public void removerPoder(Poder poder) {
         if (poderes.contains(poder)) {
             poderes.remove(poder);
+        }
+    }
+
+    public void actualizarPoderesDeDuracion(){
+        for (Poder poder : poderes) {
+            if (poder.equals(new Freeze()) || poder.equals(new Escudo())){
+                PoderDeDuracion poderDeDuracion = (PoderDeDuracion) poder;
+                poderDeDuracion.disminuirTurnos();
+                if (poderDeDuracion.getTurnos() == 0) {
+                    poderes.remove(poder);
+                }
+            }
         }
     }
 }

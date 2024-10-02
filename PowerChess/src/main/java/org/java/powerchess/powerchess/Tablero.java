@@ -39,9 +39,15 @@ public class Tablero {
         casillas.get(4).set(fila, new Pieza(color, new Rey()));
     }
 
+
+    private boolean piezaEnemigaEscudada(int xDestino, int yDestino){
+        Pieza piezaEnemiga = obtenerPieza(xDestino, yDestino);
+        return piezaEnemiga.estaProtegida();
+    }
+
     public boolean moverPieza(Pieza pieza, int xOrigen, int yOrigen, int xDestino, int yDestino) {
-        if (pieza.mover(xOrigen, yOrigen, xDestino, yDestino, this)) {
-            casillas.get(xDestino).set(yDestino, pieza);
+        if (pieza.mover(xOrigen, yOrigen, xDestino, yDestino, this) && !piezaEnemigaEscudada(xDestino, yDestino)) {
+            casillas.get(xDestino).set(yDestino, pieza); //comer
             casillas.get(xOrigen).set(yOrigen, null);
             return true;
         }
@@ -102,13 +108,13 @@ public class Tablero {
         Pieza rey = encontrarRey(jugador.getColor());
         if (rey == null) return false;
 
-        int xRey = obtenerPosicionX(rey);
-        int yRey = obtenerPosicionY(rey);
+        int xRey = obtenerPosicion(rey, true);
+        int yRey = obtenerPosicion(rey, false);
 
         for (List<Pieza> fila : casillas) {
             for (Pieza pieza : fila) {
                 if (pieza != null && pieza.getColor() != jugador.getColor()) {
-                    if (pieza.mover(obtenerPosicionX(pieza), obtenerPosicionY(pieza), xRey, yRey, this)) {
+                    if (pieza.mover(obtenerPosicion(pieza, true), obtenerPosicion(pieza, false), xRey, yRey, this)) {
                         return true;
                     }
                 }
@@ -128,8 +134,8 @@ public class Tablero {
                     for (int x = 0; x < tamanio; x++) {
                         for (int y = 0; y < tamanio; y++) {
                             Pieza piezaDestino = casillas.get(x).get(y);
-                            int xOrigen = obtenerPosicionX(pieza);
-                            int yOrigen = obtenerPosicionY(pieza);
+                            int xOrigen = obtenerPosicion(pieza, true);
+                            int yOrigen = obtenerPosicion(pieza, false);
 
                             if (pieza.mover(xOrigen, yOrigen, x, y, this)) {
                                 casillas.get(x).set(y, pieza);
@@ -198,22 +204,11 @@ public class Tablero {
         return false;
     }
 
-    public int obtenerPosicionX(Pieza pieza) {
+    public int obtenerPosicion(Pieza pieza, boolean obtenerX) {
         for (int x = 0; x < tamanio; x++) {
             for (int y = 0; y < tamanio; y++) {
                 if (casillas.get(x).get(y) == pieza) {
-                    return x;
-                }
-            }
-        }
-        return -1;
-    }
-
-    public int obtenerPosicionY(Pieza pieza) {
-        for (int x = 0; x < tamanio; x++) {
-            for (int y = 0; y < tamanio; y++) {
-                if (casillas.get(x).get(y) == pieza) {
-                    return y;
+                    return obtenerX ? x : y;
                 }
             }
         }
@@ -221,8 +216,8 @@ public class Tablero {
     }
 
     private boolean simularMovimientoYVerificarJaque(Pieza pieza, int xDestino, int yDestino, Jugador jugador) {
-        int xOrigen = obtenerPosicionX(pieza);
-        int yOrigen = obtenerPosicionY(pieza);
+        int xOrigen = obtenerPosicion(pieza, true);
+        int yOrigen = obtenerPosicion(pieza, false);
         Pieza piezaDestinoOriginal = casillas.get(xDestino).get(yDestino);
 
         casillas.get(xDestino).set(yDestino, pieza);

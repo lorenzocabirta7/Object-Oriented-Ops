@@ -27,8 +27,12 @@ public class Pieza {
 
     public boolean haSidoMovido(){ return fueMovida; }
 
-    public boolean puedeCoronar(int yOrigen){
-        return (yOrigen == 0 || yOrigen == 7) && esPeon();
+    public boolean puedeCoronar(int yActual){
+        return (yActual == 0 || yActual == 7) && esPeon();
+    }
+
+    public void coronar(EstadoPieza nuevoEstado){
+        estadoPieza = nuevoEstado;
     }
 
     public Color getColor() {
