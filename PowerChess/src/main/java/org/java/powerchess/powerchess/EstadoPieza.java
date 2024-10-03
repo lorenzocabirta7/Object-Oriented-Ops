@@ -7,6 +7,9 @@ public interface EstadoPieza {
         return false;
     }
 
+    // se utiliza para cargar la imagen en el tablero
+    String getNombre();
+
     default boolean esTorre() {
         return false;
     }

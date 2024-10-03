@@ -29,6 +29,7 @@ public class Tablero {
     }
 
     private void inicializarPiezasEspeciales(int fila, Color color) {
+
         casillas.get(0).set(fila, new Pieza(color, new Torre()));
         casillas.get(7).set(fila, new Pieza(color, new Torre()));
         casillas.get(1).set(fila, new Pieza(color, new Caballo()));

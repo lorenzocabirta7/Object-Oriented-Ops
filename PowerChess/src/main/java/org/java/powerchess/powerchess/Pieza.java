@@ -33,6 +33,8 @@ public class Pieza {
 
     public void coronar(EstadoPieza nuevoEstado){
         estadoPieza = nuevoEstado;
+
+
     }
 
     public Color getColor() {
@@ -62,4 +64,6 @@ public class Pieza {
     public boolean esPeon() {
         return estadoPieza.esPeon();
     }
+
+    public String getNombre() {return this.estadoPieza.getNombre();}
 }

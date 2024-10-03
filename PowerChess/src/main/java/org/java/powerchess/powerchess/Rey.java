@@ -1,6 +1,8 @@
 package org.java.powerchess.powerchess;
 
 public class Rey implements EstadoPieza {
+    private final String nombre = "Rey";
+
     @Override
     public boolean verificarMovimiento(int xOrigen, int yOrigen, int xDestino, int yDestino, Tablero tablero) {
         int deltaX = Math.abs(xDestino - xOrigen);
@@ -13,5 +15,9 @@ public class Rey implements EstadoPieza {
     @Override
     public boolean esRey() {
         return true;
+    }
+
+    public String getNombre() {
+        return this.nombre;
     }
 }

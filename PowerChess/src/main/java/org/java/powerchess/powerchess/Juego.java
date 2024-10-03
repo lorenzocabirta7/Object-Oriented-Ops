@@ -73,4 +73,6 @@ public class Juego {
         jugadorBlanco.actualizarPoderesDeDuracion();
         jugadorNegro.actualizarPoderesDeDuracion();
     }
+
+    public Tablero obtenerTablero() { return this.tablero; }
 }

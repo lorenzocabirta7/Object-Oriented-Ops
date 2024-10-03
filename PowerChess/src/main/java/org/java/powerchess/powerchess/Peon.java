@@ -2,6 +2,7 @@ package org.java.powerchess.powerchess;
 
 public class Peon implements EstadoPieza {
     private boolean primerMovimiento = true;
+    private final String nombre = "Peon";
 
     @Override
     public boolean verificarMovimiento(int xOrigen, int yOrigen, int xDestino, int yDestino, Tablero tablero) {
@@ -37,5 +38,9 @@ public class Peon implements EstadoPieza {
     @Override
     public boolean esPeon() {
         return true;
+    }
+
+    public String getNombre() {
+        return this.nombre;
     }
 }

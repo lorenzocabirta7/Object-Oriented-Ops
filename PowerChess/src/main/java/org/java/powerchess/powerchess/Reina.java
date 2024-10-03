@@ -3,6 +3,7 @@ package org.java.powerchess.powerchess;
 public class Reina implements EstadoPieza {
     private final EstadoPieza torre;
     private final EstadoPieza alfil;
+    private final String nombre = "Reina";
 
     public Reina(EstadoPieza torre, EstadoPieza alfil) {
         this.torre = torre;
@@ -21,6 +22,10 @@ public class Reina implements EstadoPieza {
         }
 
         return false;
+    }
+
+    public String getNombre() {
+        return this.nombre;
     }
 }
 
