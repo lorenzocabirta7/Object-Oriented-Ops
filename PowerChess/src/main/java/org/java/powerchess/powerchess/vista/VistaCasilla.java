@@ -2,16 +2,25 @@ package org.java.powerchess.powerchess.vista;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.StackPane;
+import org.java.powerchess.powerchess.Celda;
 import org.java.powerchess.powerchess.Color;
 import org.java.powerchess.powerchess.Pieza;
+import org.java.powerchess.powerchess.Tablero;
+import org.java.powerchess.powerchess.controlador.ControladorMouse;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Observable;
+import java.util.Observer;
 
-public class VistaCasilla extends StackPane {
+public class VistaCasilla extends StackPane implements Observer {
+    private Celda celda;
     ImageView piezaImgView;
+
     private final HashMap<String, String> imgPieza = new HashMap<>() {{
         put("TorreB", "src/main/java/org/java/powerchess/powerchess/vista/imagenes/torreBlanca.png");
         put("AlfilB", "src/main/java/org/java/powerchess/powerchess/vista/imagenes/alfilBlanco.png");
@@ -27,8 +36,12 @@ public class VistaCasilla extends StackPane {
         put("PeonN", "src/main/java/org/java/powerchess/powerchess/vista/imagenes/peonNegro.png");
     }};
 
-    public VistaCasilla(Pieza pieza, double anchoCeldaGridPane, double alturaCeldaGridPane) {
-        if ( pieza != null ) {
+    public VistaCasilla(Celda celda, double anchoCeldaGridPane, double alturaCeldaGridPane) {
+        super();
+        this.celda = celda;
+        this.celda.addObserver(this);
+        if ( ! celda.celdaVacia() ) {
+            Pieza pieza = celda.obtenerPieza();
             String color = ( pieza.getColor() == Color.BLANCO ) ? "B":"N";
             try {
                 InputStream piezaIS = new FileInputStream(imgPieza.get(pieza.getNombre() + color));
@@ -46,8 +59,18 @@ public class VistaCasilla extends StackPane {
         /*
         * Aca iria la llamada a MouseController / MouseControllerDragged
         * */
-        // ControladorMouse eventHandler = new ControladorMouse(parcela);
-        // this.addEventHandler(MouseEvent.MOUSE_CLICKED, eventHandler);
-        // new ControladorMouseDragged(this, juego, juegoController, parcela);
+
+        ControladorMouse eventHandler = new ControladorMouse(celda);
+        this.addEventHandler(MouseEvent.MOUSE_CLICKED, eventHandler);
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        if ( this.celda.estaSeleccionada() ) {
+            this.setBackground(Background.fill(new javafx.scene.paint.Color(0,0,1,0.2)));
+        }
+        else {
+            this.setBackground(null);
+        }
     }
 }

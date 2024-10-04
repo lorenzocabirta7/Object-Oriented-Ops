@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import org.java.powerchess.powerchess.controlador.ControladorJuego;
 import org.java.powerchess.powerchess.vista.VistaCasilla;
 
 import java.io.IOException;
@@ -13,7 +14,7 @@ import java.io.IOException;
  * JavaFX App
  */
 public class App extends Application {
-
+    private Stage primaryStage;
     private final int cantidad_de_filas = 8;
     private final int cantidad_de_columnas = 8;
 
@@ -21,7 +22,7 @@ public class App extends Application {
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader loader = new FXMLLoader(App.class.getResource("powerchess.fxml"));
         Parent root = loader.load();
-
+        this.primaryStage = primaryStage;
 
         Scene scene = new Scene(root,700,700);
 
@@ -41,13 +42,15 @@ public class App extends Application {
     public void cargarTablero(Juego juego, GridPane gridPaneTablero) {
 
         Tablero tablero = juego.obtenerTablero();
+        ControladorJuego controladorJuego = new ControladorJuego(juego);
 
         for (int fila = 0 ; fila < cantidad_de_filas ; fila++) {
             for (int columna = 0 ; columna < cantidad_de_columnas ; columna++) {
                 double width = gridPaneTablero.getCellBounds(columna, fila).getWidth();
                 double height = gridPaneTablero.getCellBounds(columna, fila).getHeight();
-
-                VistaCasilla casilla = new VistaCasilla(tablero.obtenerPieza(fila, columna), width, height);
+                Celda celda = tablero.obtenerCelda(fila, columna);
+                VistaCasilla casilla = new VistaCasilla(celda, width, height);
+                controladorJuego.agregarObservable(celda, casilla);
                 gridPaneTablero.add(casilla, fila, columna);
             }
         }
