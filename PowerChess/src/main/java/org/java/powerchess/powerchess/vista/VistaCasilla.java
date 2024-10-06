@@ -5,7 +5,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.StackPane;
-import org.java.powerchess.powerchess.Celda;
+import javafx.util.Pair;
 import org.java.powerchess.powerchess.Color;
 import org.java.powerchess.powerchess.Pieza;
 import org.java.powerchess.powerchess.Tablero;
@@ -18,30 +18,33 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class VistaCasilla extends StackPane implements Observer {
-    private Celda celda;
+    private Tablero tablero;
+    private Pair<Integer, Integer> casillaActual;
     ImageView piezaImgView;
 
     private final HashMap<String, String> imgPieza = new HashMap<>() {{
-        put("TorreB", "src/main/java/org/java/powerchess/powerchess/vista/imagenes/torreBlanca.png");
-        put("AlfilB", "src/main/java/org/java/powerchess/powerchess/vista/imagenes/alfilBlanco.png");
-        put("CaballoB", "src/main/java/org/java/powerchess/powerchess/vista/imagenes/caballoBlanco.png");
-        put("ReinaB", "src/main/java/org/java/powerchess/powerchess/vista/imagenes/reinaBlanca.png");
-        put("ReyB", "src/main/java/org/java/powerchess/powerchess/vista/imagenes/reyBlanco.png");
-        put("PeonB", "src/main/java/org/java/powerchess/powerchess/vista/imagenes/peonBlanco.png");
-        put("TorreN", "src/main/java/org/java/powerchess/powerchess/vista/imagenes/torreNegra.png");
-        put("AlfilN", "src/main/java/org/java/powerchess/powerchess/vista/imagenes/alfilNegro.png");
-        put("CaballoN", "src/main/java/org/java/powerchess/powerchess/vista/imagenes/caballoNegro.png");
-        put("ReinaN", "src/main/java/org/java/powerchess/powerchess/vista/imagenes/reinaNegra.png");
-        put("ReyN", "src/main/java/org/java/powerchess/powerchess/vista/imagenes/reyNegro.png");
-        put("PeonN", "src/main/java/org/java/powerchess/powerchess/vista/imagenes/peonNegro.png");
+        put("TorreB", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/torreBlanca.png");
+        put("AlfilB", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/alfilBlanco.png");
+        put("CaballoB", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/caballoBlanco.png");
+        put("ReinaB", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/reinaBlanca.png");
+        put("ReyB", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/reyBlanco.png");
+        put("PeonB", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/peonBlanco.png");
+        put("TorreN", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/torreNegra.png");
+        put("AlfilN", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/alfilNegro.png");
+        put("CaballoN", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/caballoNegro.png");
+        put("ReinaN", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/reinaNegra.png");
+        put("ReyN", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/reyNegro.png");
+        put("PeonN", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/peonNegro.png");
     }};
 
-    public VistaCasilla(Celda celda, double anchoCeldaGridPane, double alturaCeldaGridPane) {
+    public VistaCasilla(Tablero tablero, Pair<Integer, Integer> casillaActual, double anchoCeldaGridPane, double alturaCeldaGridPane) {
         super();
-        this.celda = celda;
-        this.celda.addObserver(this);
-        if ( ! celda.celdaVacia() ) {
-            Pieza pieza = celda.obtenerPieza();
+        this.tablero = tablero;
+        this.casillaActual = casillaActual;
+        this.tablero.addObserver(this);
+
+        if ( ! tablero.casillaVacia(this.casillaActual.getKey(), this.casillaActual.getValue()) ) {
+            Pieza pieza = tablero.obtenerPieza(this.casillaActual.getKey(), this.casillaActual.getValue());
             String color = ( pieza.getColor() == Color.BLANCO ) ? "B":"N";
             try {
                 InputStream piezaIS = new FileInputStream(imgPieza.get(pieza.getNombre() + color));
@@ -53,20 +56,18 @@ public class VistaCasilla extends StackPane implements Observer {
 
                 getChildren().add(piezaImgView);
             } catch (Exception e) {
+                System.out.println(e.getMessage());
             }
 
         }
-        /*
-        * Aca iria la llamada a MouseController / MouseControllerDragged
-        * */
 
-        ControladorMouse eventHandler = new ControladorMouse(celda);
+        ControladorMouse eventHandler = new ControladorMouse(this.tablero, this.casillaActual);
         this.addEventHandler(MouseEvent.MOUSE_CLICKED, eventHandler);
     }
 
     @Override
     public void update(Observable observable, Object o) {
-        if ( this.celda.estaSeleccionada() ) {
+        if ( this.tablero.casillaEstaSeleccionada(this.casillaActual) ) {
             this.setBackground(Background.fill(new javafx.scene.paint.Color(0,0,1,0.2)));
         }
         else {

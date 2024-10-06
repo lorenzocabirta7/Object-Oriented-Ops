@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 import org.java.powerchess.powerchess.controlador.ControladorJuego;
 import org.java.powerchess.powerchess.vista.VistaCasilla;
 
@@ -48,9 +49,9 @@ public class App extends Application {
             for (int columna = 0 ; columna < cantidad_de_columnas ; columna++) {
                 double width = gridPaneTablero.getCellBounds(columna, fila).getWidth();
                 double height = gridPaneTablero.getCellBounds(columna, fila).getHeight();
-                Celda celda = tablero.obtenerCelda(fila, columna);
-                VistaCasilla casilla = new VistaCasilla(celda, width, height);
-                controladorJuego.agregarObservable(celda, casilla);
+                Pair<Integer, Integer> casillaActual = new Pair(fila, columna);
+                VistaCasilla casilla = new VistaCasilla(tablero, casillaActual, width, height);
+                controladorJuego.agregarObservable(tablero, casilla);
                 gridPaneTablero.add(casilla, fila, columna);
             }
         }
