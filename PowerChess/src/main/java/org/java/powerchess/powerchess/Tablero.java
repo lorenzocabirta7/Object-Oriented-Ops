@@ -3,7 +3,6 @@ package org.java.powerchess.powerchess;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
 
@@ -50,8 +49,13 @@ public class Tablero extends Observable {
         return piezaEnemiga.estaProtegida();
     }
 
-    public boolean moverPieza(Pieza pieza, int xOrigen, int yOrigen, int xDestino, int yDestino) {
-        if (pieza.mover(xOrigen, yOrigen, xDestino, yDestino, this) && !piezaEnemigaEscudada(xDestino, yDestino)) {
+    public boolean moverPieza(int xOrigen, int yOrigen, int xDestino, int yDestino, Color color) {
+        Pieza pieza;
+        if ( ( pieza = this.obtenerPieza(xOrigen, yOrigen) ) == null) { return false; }
+        if ( pieza.getColor() != color ) { return false; }
+
+        if (pieza.mover(xOrigen, yOrigen, xDestino, yDestino, this)) {
+            if ( hayPiezaEnemiga(xDestino, yDestino, color) && piezaEnemigaEscudada(xDestino, yDestino) ) return false;
             casillas.get(xDestino).set(yDestino, pieza);
             casillas.get(xOrigen).set(yOrigen, null);
             setChanged();
@@ -75,7 +79,15 @@ public class Tablero extends Observable {
         notifyObservers();
     }
 
+    public boolean hayUnaCasillaSeleccionada() {
+        return ! this.casillaSeleccionada.equals(new Pair(-1, -1));
+    }
+
+    public Pair<Integer, Integer> obtenerCasillaSeleccionada() { return this.casillaSeleccionada; }
+
     public boolean hayPiezaEnemiga(int x, int y, Color color) {
+        if ( casillaVacia(x, y) ) return false;
+
         if (posicionDentroDelTablero(x, y)) {
             return casillas.get(x).get(y).getColor() != color;
         }

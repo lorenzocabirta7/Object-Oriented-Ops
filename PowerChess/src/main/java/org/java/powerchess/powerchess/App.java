@@ -42,7 +42,6 @@ public class App extends Application {
 
     public void cargarTablero(Juego juego, GridPane gridPaneTablero) {
 
-        Tablero tablero = juego.obtenerTablero();
         ControladorJuego controladorJuego = new ControladorJuego(juego);
 
         for (int fila = 0 ; fila < cantidad_de_filas ; fila++) {
@@ -50,8 +49,8 @@ public class App extends Application {
                 double width = gridPaneTablero.getCellBounds(columna, fila).getWidth();
                 double height = gridPaneTablero.getCellBounds(columna, fila).getHeight();
                 Pair<Integer, Integer> casillaActual = new Pair(fila, columna);
-                VistaCasilla casilla = new VistaCasilla(tablero, casillaActual, width, height);
-                controladorJuego.agregarObservable(tablero, casilla);
+                VistaCasilla casilla = new VistaCasilla(juego, casillaActual, width, height);
+                controladorJuego.agregarObservable(juego, casilla);
                 gridPaneTablero.add(casilla, fila, columna);
             }
         }

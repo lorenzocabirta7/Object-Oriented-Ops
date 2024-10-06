@@ -15,11 +15,8 @@ public class Jugador {
         //Hardcodear poderes
     }
 
-    public boolean moverPieza(Pieza pieza, int xDestino, int yDestino, Tablero tablero) {
-        int xOrigen = tablero.obtenerPosicion(pieza, true);
-        int yOrigen = tablero.obtenerPosicion(pieza, false);
-
-        return tablero.moverPieza(pieza, xOrigen, yOrigen, xDestino, yDestino);
+    public boolean moverPieza(int xOrigen, int yOrigen, int xDestino, int yDestino, Tablero tablero) {
+        return tablero.moverPieza(xOrigen, yOrigen, xDestino, yDestino, this.color);
     }
 
 

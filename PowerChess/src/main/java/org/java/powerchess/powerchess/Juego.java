@@ -1,6 +1,8 @@
 package org.java.powerchess.powerchess;
 
-public class Juego {
+import java.util.Observable;
+
+public class Juego extends Observable {
     private Jugador jugadorBlanco;
     private Jugador jugadorNegro;
     private Tablero tablero;
@@ -23,11 +25,9 @@ public class Juego {
         this.tablasOfrecidas = false;
     }
 
-    public boolean moverPieza(Pieza pieza, int xDestino, int yDestino) {
-        if (enJuego && turnoActual.getColor() == pieza.getColor()) {
-            int xOrigen = tablero.obtenerPosicion(pieza, true);
-            int yOrigen = tablero.obtenerPosicion(pieza, false);
-            if (tablero.moverPieza(pieza, xOrigen, yOrigen, xDestino, yDestino)) {
+    public boolean moverPieza(int xOrigen, int yOrigen, int xDestino, int yDestino) {
+        if (enJuego) {
+            if (turnoActual.moverPieza(xOrigen, yOrigen, xDestino, yDestino, this.tablero) ) {
                 cambiarTurno();
                 return true;
             }
