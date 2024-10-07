@@ -26,6 +26,7 @@ public class ControladorMouse implements EventHandler<MouseEvent> {
         }
 
         // aca se actualiza. TODO: esto deberia ser solo si la pieza le corresponde al jugador
+
         tablero.cambiarSeleccionCasilla(casillaActual);
     }
 }

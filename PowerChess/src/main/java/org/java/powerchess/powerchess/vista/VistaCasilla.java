@@ -22,6 +22,8 @@ public class VistaCasilla extends StackPane implements Observer {
     private Juego juego;
     private Pair<Integer, Integer> casillaActual;
     ImageView piezaImgView;
+    private double anchoCeldaGridPane;
+    private double alturaCeldaGridPane;
 
     private final HashMap<String, String> imgPieza = new HashMap<>() {{
         put("TorreB", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/torreBlanca.png");
@@ -42,13 +44,15 @@ public class VistaCasilla extends StackPane implements Observer {
         super();
         this.juego = juego;
         this.casillaActual = casillaActual;
+        this.anchoCeldaGridPane = anchoCeldaGridPane;
+        this.alturaCeldaGridPane = alturaCeldaGridPane;
         this.juego.addObserver(this);
 
         Tablero tablero = this.juego.obtenerTablero();
         tablero.addObserver(this);
         if ( ! tablero.casillaVacia(this.casillaActual.getKey(), this.casillaActual.getValue()) ) {
             Pieza pieza = tablero.obtenerPieza(this.casillaActual.getKey(), this.casillaActual.getValue());
-            cargarImagenDePieza(pieza, anchoCeldaGridPane, alturaCeldaGridPane);
+            cargarImagenDePieza(pieza);
         }
 
         ControladorMouse eventHandler = new ControladorMouse(this.juego, this.casillaActual);
@@ -58,6 +62,8 @@ public class VistaCasilla extends StackPane implements Observer {
     @Override
     public void update(Observable observable, Object o) {
         Tablero tablero = this.juego.obtenerTablero();
+        Pieza pieza = tablero.obtenerPieza(casillaActual.getKey(), this.casillaActual.getValue());
+        cargarImagenDePieza(tablero.obtenerPieza(casillaActual.getKey(), casillaActual.getValue()));
         if ( tablero.casillaEstaSeleccionada(this.casillaActual) ) {
             this.setBackground(Background.fill(new javafx.scene.paint.Color(0,0,1,0.2)));
         }
@@ -67,7 +73,15 @@ public class VistaCasilla extends StackPane implements Observer {
         // TODO: si hubo un movimiento, hay que mover la pieza (o sea, cambiar la imagen mostrada)
     }
 
-    private void cargarImagenDePieza(Pieza pieza, double anchoCeldaGridPane, double alturaCeldaGridPane) {
+    private void cargarImagenDePieza(Pieza pieza) {
+        if ( pieza == null ) {
+            //getChildren().remove(piezaImgView);
+            if (piezaImgView != null){
+                //piezaImgView.setImage(null);
+                piezaImgView.setImage(null);
+            }
+            return;
+        }
         String color = ( pieza.getColor() == Color.BLANCO ) ? "B":"N";
         try {
             InputStream piezaIS = new FileInputStream(imgPieza.get(pieza.getNombre() + color));
