@@ -63,21 +63,18 @@ public class VistaCasilla extends StackPane implements Observer {
     public void update(Observable observable, Object o) {
         Tablero tablero = this.juego.obtenerTablero();
         Pieza pieza = tablero.obtenerPieza(casillaActual.getKey(), this.casillaActual.getValue());
-        cargarImagenDePieza(tablero.obtenerPieza(casillaActual.getKey(), casillaActual.getValue()));
+        cargarImagenDePieza(pieza);
         if ( tablero.casillaEstaSeleccionada(this.casillaActual) ) {
             this.setBackground(Background.fill(new javafx.scene.paint.Color(0,0,1,0.2)));
         }
         else {
             this.setBackground(null);
         }
-        // TODO: si hubo un movimiento, hay que mover la pieza (o sea, cambiar la imagen mostrada)
     }
 
     private void cargarImagenDePieza(Pieza pieza) {
         if ( pieza == null ) {
-            //getChildren().remove(piezaImgView);
             if (piezaImgView != null){
-                //piezaImgView.setImage(null);
                 piezaImgView.setImage(null);
             }
             return;
@@ -86,12 +83,16 @@ public class VistaCasilla extends StackPane implements Observer {
         try {
             InputStream piezaIS = new FileInputStream(imgPieza.get(pieza.getNombre() + color));
             Image piezaCasilla = new Image(piezaIS);
-            piezaImgView = new ImageView(piezaCasilla);
 
-            piezaImgView.setFitWidth(anchoCeldaGridPane);
-            piezaImgView.setFitHeight(alturaCeldaGridPane);
+            if ( piezaImgView == null ) {
+                piezaImgView = new ImageView(piezaCasilla);
+                piezaImgView.setFitWidth(anchoCeldaGridPane);
+                piezaImgView.setFitHeight(alturaCeldaGridPane);
+                getChildren().add(piezaImgView);
+            } else {
+                piezaImgView.setImage(piezaCasilla);
+            }
 
-            getChildren().add(piezaImgView);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
