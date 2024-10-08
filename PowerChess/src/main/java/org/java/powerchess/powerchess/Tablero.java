@@ -39,8 +39,8 @@ public class Tablero extends Observable {
         casillas.get(6).set(fila, new Pieza(color, new Caballo()));
         casillas.get(2).set(fila, new Pieza(color, new Alfil()));
         casillas.get(5).set(fila, new Pieza(color, new Alfil()));
-        casillas.get(3).set(fila, new Pieza(color, new Reina(new Torre(), new Alfil())));
-        casillas.get(4).set(fila, new Pieza(color, new Rey()));
+        casillas.get(4).set(fila, new Pieza(color, new Reina(new Torre(), new Alfil())));
+        casillas.get(3).set(fila, new Pieza(color, new Rey()));
 
     }
 
@@ -54,14 +54,17 @@ public class Tablero extends Observable {
         if ( ( pieza = this.obtenerPieza(xOrigen, yOrigen) ) == null) { return false; }
         if ( pieza.getColor() != color ) { return false; }
 
+        Pieza piezaDestino = obtenerPieza(xDestino, yDestino);
+        if ( ! hayPiezaEnemiga(xDestino, xOrigen, color) && piezaDestino != null ) {
+            if ( ( pieza.esTorre() && piezaDestino.esRey() ) || (pieza.esRey() && piezaDestino.esTorre() ) ) {
+                boolean res = hacerEnroque(color, xOrigen, xDestino);
+                System.out.println(res);
+                return res;
+            }
+        }
+
         if (pieza.mover(xOrigen, yOrigen, xDestino, yDestino, this)) {
             if ( hayPiezaEnemiga(xDestino, yDestino, color) && piezaEnemigaEscudada(xDestino, yDestino) ) return false;
-            Pieza piezaDestino = obtenerPieza(xDestino, yDestino);
-            if ( piezaDestino != null ) {
-                if ( ( pieza.esTorre() && piezaDestino.esRey() ) || (pieza.esRey() && piezaDestino.esTorre() ) ) {
-                    // TODO: enroque
-                }
-            }
 
             casillas.get(xDestino).set(yDestino, pieza);
             casillas.get(xOrigen).set(yOrigen, null);
@@ -194,14 +197,18 @@ public class Tablero extends Observable {
         return true;
     }
 
+    private boolean _esEnroqueCorto(int xTorre, int xRey) {
+        return Math.abs( xTorre - xRey ) == 3 ;
+    }
+
     public boolean puedeHacerEnroque(Color colorDelJugador, boolean enroqueCorto) {
         Pieza rey = encontrarRey(colorDelJugador);
         if (rey == null || rey.haSidoMovido()) return false;
 
         int filaRey = (colorDelJugador == Color.BLANCO) ? 0 : 7;
-        int columnaRey = 4;
-        int columnaTorre = enroqueCorto ? 7 : 0;
-        int direccion = enroqueCorto ? 1 : -1;
+        int columnaRey = 3;
+        int columnaTorre = enroqueCorto ? 0 : 7;
+        int direccion = enroqueCorto ? -1 : 1;
 
         Pieza torre = casillas.get(columnaTorre).get(filaRey);
 
@@ -220,17 +227,19 @@ public class Tablero extends Observable {
         return true;
     }
 
-    public boolean hacerEnroque(Color colorDelJugador, boolean enroqueCorto) {
+    // Pre: Origen y Destino son las coordenadas en el eje x del rey y la torre, no importa el orden.
+    public boolean hacerEnroque(Color colorDelJugador, int xOrigen, int xDestino) {
+        boolean enroqueCorto = _esEnroqueCorto(xOrigen, xDestino);
         if (puedeHacerEnroque(colorDelJugador, enroqueCorto)) {
             Pieza rey = encontrarRey(colorDelJugador);
             int filaRey = (colorDelJugador == Color.BLANCO) ? 0 : 7;
-            int columnaRey = 4;
-            int direccion = enroqueCorto ? 1 : -1;
+            int columnaRey = 3;
+            int direccion = enroqueCorto ? -1 : 1;
 
             casillas.get(columnaRey + 2 * direccion).set(filaRey, rey);
             casillas.get(columnaRey).set(filaRey, null);
 
-            int columnaTorre = enroqueCorto ? 7 : 0;
+            int columnaTorre = enroqueCorto ? 0 : 7;
             Pieza torre = casillas.get(columnaTorre).get(filaRey);
             casillas.get(columnaRey + direccion).set(filaRey, torre);
             casillas.get(columnaTorre).set(filaRey, null);
