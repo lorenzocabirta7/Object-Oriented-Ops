@@ -75,4 +75,6 @@ public class Juego extends Observable {
     }
 
     public Tablero obtenerTablero() { return this.tablero; }
+
+    public Color obtenerColorDelJugadorActual() { return this.turnoActual.getColor(); }
 }

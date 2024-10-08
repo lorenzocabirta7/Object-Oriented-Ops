@@ -24,6 +24,7 @@ public class VistaCasilla extends StackPane implements Observer {
     ImageView piezaImgView;
     private double anchoCeldaGridPane;
     private double alturaCeldaGridPane;
+    private boolean huboMovimiento = false;
 
     private final HashMap<String, String> imgPieza = new HashMap<>() {{
         put("TorreB", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/torreBlanca.png");
@@ -63,13 +64,15 @@ public class VistaCasilla extends StackPane implements Observer {
     public void update(Observable observable, Object o) {
         Tablero tablero = this.juego.obtenerTablero();
         Pieza pieza = tablero.obtenerPieza(casillaActual.getKey(), this.casillaActual.getValue());
-        cargarImagenDePieza(pieza);
-        if ( tablero.casillaEstaSeleccionada(this.casillaActual) ) {
+        // TODO: agregar un chequeo aca respecto al color de la pieza
+        if ( tablero.casillaEstaSeleccionada(this.casillaActual) && pieza != null) {
             this.setBackground(Background.fill(new javafx.scene.paint.Color(0,0,1,0.2)));
         }
         else {
             this.setBackground(null);
         }
+        cargarImagenDePieza(pieza);
+
     }
 
     private void cargarImagenDePieza(Pieza pieza) {

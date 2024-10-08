@@ -58,6 +58,7 @@ public class Tablero extends Observable {
             if ( hayPiezaEnemiga(xDestino, yDestino, color) && piezaEnemigaEscudada(xDestino, yDestino) ) return false;
             casillas.get(xDestino).set(yDestino, pieza);
             casillas.get(xOrigen).set(yOrigen, null);
+            // TODO: si la pieza es un peon, y la casilla esta en la fila final, hay que coronarlo
             setChanged();
             return true;
         }
