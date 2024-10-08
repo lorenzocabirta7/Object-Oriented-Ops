@@ -12,7 +12,9 @@ public class Jugador {
         this.nombre = nombre;
         this.color = color;
         this.poderes = new ArrayList<>();
-        //Hardcodear poderes
+        agregarPoder(new Freeze());
+        agregarPoder(new Limpieza());
+        agregarPoder(new Escudo());
     }
 
     public boolean moverPieza(int xOrigen, int yOrigen, int xDestino, int yDestino, Tablero tablero) {
