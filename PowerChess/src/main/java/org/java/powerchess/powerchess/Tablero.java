@@ -49,6 +49,8 @@ public class Tablero extends Observable {
         return piezaEnemiga.estaProtegida();
     }
 
+    // TODO: antes de mover una pieza, hay que chequear si el rey esta en jaque. En ese caso,
+    // solo se deben de poder mover las piezas que eviten que el rey caiga en jaque
     public boolean moverPieza(int xOrigen, int yOrigen, int xDestino, int yDestino, Color color) {
         Pieza pieza;
         if ( ( pieza = this.obtenerPieza(xOrigen, yOrigen) ) == null) { return false; }
@@ -57,9 +59,7 @@ public class Tablero extends Observable {
         Pieza piezaDestino = obtenerPieza(xDestino, yDestino);
         if ( ! hayPiezaEnemiga(xDestino, xOrigen, color) && piezaDestino != null ) {
             if ( ( pieza.esTorre() && piezaDestino.esRey() ) || (pieza.esRey() && piezaDestino.esTorre() ) ) {
-                boolean res = hacerEnroque(color, xOrigen, xDestino);
-                System.out.println(res);
-                return res;
+                return hacerEnroque(color, xOrigen, xDestino);
             }
         }
 
@@ -143,6 +143,22 @@ public class Tablero extends Observable {
         return null;
     }
 
+    private boolean _chequearSiUnaCasillaEstaSiendoAtacada(int xCasillaObjetivo, int yCasillaObjetivo, Color colorEnemigo) {
+        for (List<Pieza> fila : casillas) {
+            for (Pieza pieza : fila) {
+                if (pieza != null && pieza.getColor() == colorEnemigo) {
+                    int xPiezaEnemiga = obtenerPosicion(pieza, true);
+                    int yPiezaEnemiga = obtenerPosicion(pieza, false);
+                    if (pieza.mover(xPiezaEnemiga, yPiezaEnemiga, xCasillaObjetivo, yCasillaObjetivo, this)) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
     public boolean estaEnJaque(Color colorDelJugador) {
         Pieza rey = encontrarRey(colorDelJugador);
         if (rey == null) return false;
@@ -150,16 +166,9 @@ public class Tablero extends Observable {
         int xRey = obtenerPosicion(rey, true);
         int yRey = obtenerPosicion(rey, false);
 
-        for (List<Pieza> fila : casillas) {
-            for (Pieza pieza : fila) {
-                if (pieza != null && pieza.getColor() != colorDelJugador) {
-                    if (pieza.mover(obtenerPosicion(pieza, true), obtenerPosicion(pieza, false), xRey, yRey, this)) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
+        Color colorEnemigo = ( colorDelJugador == Color.NEGRO  ) ? Color.BLANCO : Color.NEGRO;
+
+        return _chequearSiUnaCasillaEstaSiendoAtacada(xRey, yRey, colorEnemigo);
     }
 
     public boolean esJaqueMate(Color colorDelJugador) {
@@ -212,7 +221,7 @@ public class Tablero extends Observable {
 
         Pieza torre = casillas.get(columnaTorre).get(filaRey);
 
-        if (!torre.esTorre() || torre.haSidoMovido()) {
+        if (!torre.esTorre() || torre.haSidoMovido() || estaEnJaque(colorDelJugador)) {
             return false;
         }
 
@@ -220,8 +229,9 @@ public class Tablero extends Observable {
             if (casillas.get(i).get(filaRey) != null) return false;
         }
 
-        for (int i = columnaRey; i != columnaRey + 2 * direccion; i += direccion) {
-            if (simularMovimientoYVerificarJaque(rey, i, filaRey, colorDelJugador)) return false;
+        int destino = columnaRey + 2 * direccion;
+        for (int i = columnaRey; i != destino + direccion; i += direccion) {
+            if (! simularMovimientoYVerificarQueNoEstaEnJaque(rey, i, filaRey, colorDelJugador)) return false;
         }
 
         return true;
@@ -261,19 +271,22 @@ public class Tablero extends Observable {
         return -1;
     }
 
-    private boolean simularMovimientoYVerificarJaque(Pieza pieza, int xDestino, int yDestino, Color colorDelJugador) {
+    // False si esta en jaque, True en caso contrario
+    // Pone el rey temporalmente en la casilla destino y verifica que no quede en jaque
+    private boolean simularMovimientoYVerificarQueNoEstaEnJaque(Pieza pieza, int xDestino, int yDestino, Color colorDelJugador) {
         int xOrigen = obtenerPosicion(pieza, true);
         int yOrigen = obtenerPosicion(pieza, false);
+
         Pieza piezaDestinoOriginal = casillas.get(xDestino).get(yDestino);
 
         casillas.get(xDestino).set(yDestino, pieza);
         casillas.get(xOrigen).set(yOrigen, null);
 
-        boolean sigueEnJaque = estaEnJaque(colorDelJugador);
+        boolean noEstaEnJaque = ! estaEnJaque(colorDelJugador);
 
         casillas.get(xOrigen).set(yOrigen, pieza);
         casillas.get(xDestino).set(yDestino, piezaDestinoOriginal);
 
-        return sigueEnJaque;
+        return noEstaEnJaque;
     }
 }
