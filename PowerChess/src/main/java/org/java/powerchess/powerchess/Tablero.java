@@ -57,14 +57,18 @@ public class Tablero extends Observable {
         if ( pieza.getColor() != color ) { return false; }
 
         Pieza piezaDestino = obtenerPieza(xDestino, yDestino);
-        if ( ! hayPiezaEnemiga(xDestino, xOrigen, color) && piezaDestino != null ) {
+        if ( ! hayPiezaEnemiga(xDestino, yDestino, color) && piezaDestino != null ) {
             if ( ( pieza.esTorre() && piezaDestino.esRey() ) || (pieza.esRey() && piezaDestino.esTorre() ) ) {
                 return hacerEnroque(color, xOrigen, xDestino);
             }
         }
 
-        if (pieza.mover(xOrigen, yOrigen, xDestino, yDestino, this)) {
+        Color colorEnemigo = ( color == Color.BLANCO ) ? Color.NEGRO: Color.BLANCO;
+
+        if (pieza.mover(xOrigen, yOrigen, xDestino, yDestino, this) ) {
             if ( hayPiezaEnemiga(xDestino, yDestino, color) && piezaEnemigaEscudada(xDestino, yDestino) ) return false;
+
+            if ( ! simularMovimientoYVerificarQueNoEstaEnJaque(pieza, xDestino, yDestino, color) ) return false;
 
             casillas.get(xDestino).set(yDestino, pieza);
             casillas.get(xOrigen).set(yOrigen, null);
@@ -272,7 +276,7 @@ public class Tablero extends Observable {
     }
 
     // False si esta en jaque, True en caso contrario
-    // Pone el rey temporalmente en la casilla destino y verifica que no quede en jaque
+    // Pone una pieza temporalmente en la casilla destino y verifica que no quede en jaque
     private boolean simularMovimientoYVerificarQueNoEstaEnJaque(Pieza pieza, int xDestino, int yDestino, Color colorDelJugador) {
         int xOrigen = obtenerPosicion(pieza, true);
         int yOrigen = obtenerPosicion(pieza, false);
