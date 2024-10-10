@@ -76,7 +76,7 @@ public class App extends Application {
         VistaCoronacion vistaCoronacion = new VistaCoronacion(juego);
         controladorJuego.agregarObservable(juego, vistaCoronacion);
         vBoxCoronacion.getChildren().addAll(vistaCoronacion);
-        //vBoxCoronacion.setVisible(true);
+        vBoxCoronacion.setVisible(true);
     }
 
     public static void main(String[] args) {
