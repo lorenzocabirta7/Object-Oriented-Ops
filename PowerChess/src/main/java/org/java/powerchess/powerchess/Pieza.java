@@ -1,8 +1,9 @@
 package org.java.powerchess.powerchess;
 
+import java.util.Observable;
 import java.security.PublicKey;
 
-public class Pieza {
+public class Pieza  extends Observable{
     private Color color;
     private EstadoPieza estadoPieza;
     private boolean fueMovida;
@@ -45,12 +46,21 @@ public class Pieza {
         return escudada;
     }
 
+    public boolean estaCongelada() {
+      return congelada;
+    }
+
     public void setCongelada(boolean congelada) {
         this.congelada = congelada;
+        setChanged();
+        notifyObservers();
     }
 
     public void setEscudada(boolean escudada) {
         this.escudada = escudada;
+          
+        setChanged();
+        notifyObservers();
     }
 
     public boolean esRey() {

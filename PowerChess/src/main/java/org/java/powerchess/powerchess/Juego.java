@@ -72,9 +72,13 @@ public class Juego extends Observable {
         tablasOfrecidas = false;
         jugadorBlanco.actualizarPoderesDeDuracion();
         jugadorNegro.actualizarPoderesDeDuracion();
+        setChanged();
+        notifyObservers();
     }
 
     public Tablero obtenerTablero() { return this.tablero; }
+
+    public Jugador obtenerJugadorActual() { return this.turnoActual; }
 
     public Color obtenerColorDelJugadorActual() { return this.turnoActual.getColor(); }
 }

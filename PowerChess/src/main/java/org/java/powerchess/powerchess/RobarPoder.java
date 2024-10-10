@@ -13,4 +13,11 @@ public class RobarPoder extends PoderDeAccion {
         }
     }*/
     }
+
+    public String getNombre(){
+        return "RobarPoder";
+    }
+    public boolean habilitado() {
+      return this.habilitado;
+    }
 }
