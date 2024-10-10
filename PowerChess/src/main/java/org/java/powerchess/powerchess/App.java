@@ -5,10 +5,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import org.java.powerchess.powerchess.controlador.ControladorJuego;
 import org.java.powerchess.powerchess.vista.VistaCasilla;
+import org.java.powerchess.powerchess.vista.VistaCoronacion;
+import org.java.powerchess.powerchess.vista.VistaPoder;
 
 import java.io.IOException;
 /**
@@ -36,8 +39,12 @@ public class App extends Application {
         // Busca el id del gridPane en el FXML
         GridPane gridPaneTablero = (GridPane) root.lookup("#gridPaneTablero");
 
-        cargarTablero(juego, gridPaneTablero);
+        VBox vBoxHabilidades = (VBox) root.lookup("#vBoxHabilidades");
+        VBox vBoxCoronacion = (VBox) root.lookup("#vBoxCoronacion");
 
+        cargarTablero(juego, gridPaneTablero);
+        cargarHabilidades(juego, vBoxHabilidades);
+        cargarCajaDeCoronacion(juego, vBoxCoronacion);
     }
 
     public void cargarTablero(Juego juego, GridPane gridPaneTablero) {
@@ -55,6 +62,21 @@ public class App extends Application {
             }
         }
 
+    }
+
+    public void cargarHabilidades(Juego juego, VBox vBoxHabilidades) {
+        ControladorJuego controladorJuego = new ControladorJuego(juego);
+        VistaPoder vistaPoderes = new VistaPoder(juego);
+        controladorJuego.agregarObservable(juego, vistaPoderes);
+        vBoxHabilidades.getChildren().addAll(vistaPoderes);
+    }
+
+    public void cargarCajaDeCoronacion(Juego juego, VBox vBoxCoronacion) {
+        ControladorJuego controladorJuego = new ControladorJuego(juego);
+        VistaCoronacion vistaCoronacion = new VistaCoronacion(juego);
+        controladorJuego.agregarObservable(juego, vistaCoronacion);
+        vBoxCoronacion.getChildren().addAll(vistaCoronacion);
+        vBoxCoronacion.setVisible(true);
     }
 
     public static void main(String[] args) {
