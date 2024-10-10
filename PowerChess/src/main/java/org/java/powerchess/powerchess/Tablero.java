@@ -72,7 +72,7 @@ public class Tablero extends Observable {
 
             casillas.get(xDestino).set(yDestino, pieza);
             casillas.get(xOrigen).set(yOrigen, null);
-            // TODO: si la pieza es un peon, y la casilla esta en la fila final, hay que coronarlo
+
             setChanged();
             return true;
         }
@@ -292,5 +292,16 @@ public class Tablero extends Observable {
         casillas.get(xDestino).set(yDestino, piezaDestinoOriginal);
 
         return noEstaEnJaque;
+    }
+
+    public boolean puedeCoronar(int x, int y) {
+        Pieza pieza = casillas.get(x).get(y);
+        return  pieza != null && pieza.puedeCoronar(y);
+    }
+
+    public void coronar(int x, int y, EstadoPieza nuevoEstado) {
+        Pieza pieza = this.casillas.get(x).get(y);
+        pieza.coronar(nuevoEstado);
+        setChanged();
     }
 }

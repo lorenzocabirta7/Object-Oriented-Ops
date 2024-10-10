@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 import org.java.powerchess.powerchess.controlador.ControladorJuego;
 import org.java.powerchess.powerchess.vista.VistaCasilla;
+import org.java.powerchess.powerchess.vista.VistaCoronacion;
 import org.java.powerchess.powerchess.vista.VistaPoder;
 
 import java.io.IOException;
@@ -49,6 +50,7 @@ public class App extends Application {
         GridPane gridPaneTablero = (GridPane) root.lookup("#gridPaneTablero");
 
         VBox vBoxHabilidades = (VBox) root.lookup("#vBoxHabilidades");
+        VBox vBoxCoronacion = (VBox) root.lookup("#vBoxCoronacion");
 
         HBox hBoxJugadorNegro = (HBox) root.lookup("#hBoxJugadorNegro");
         
@@ -121,6 +123,7 @@ public class App extends Application {
         
         cargarTablero(juego, gridPaneTablero);
         cargarHabilidades(juego, vBoxHabilidades);
+        cargarCajaDeCoronacion(juego, vBoxCoronacion);
     }
 
     public void cargarTablero(Juego juego, GridPane gridPaneTablero) {
@@ -140,19 +143,21 @@ public class App extends Application {
 
     }
 
+
     public void cargarHabilidades(Juego juego, VBox vBoxHabilidades) {
       ControladorJuego controladorJuego = new ControladorJuego(juego);
       VistaPoder vistaPoderes = new VistaPoder(juego);
       controladorJuego.agregarObservable(juego, vistaPoderes);
       vBoxHabilidades.getChildren().addAll(vistaPoderes);
-    }
+  }
 
-    public void cargarJugadorActual(Juego juego, VBox vBoxHabilidades) {
+  public void cargarCajaDeCoronacion(Juego juego, VBox vBoxCoronacion) {
       ControladorJuego controladorJuego = new ControladorJuego(juego);
-      VistaPoder vistaPoderes = new VistaPoder(juego);
-      controladorJuego.agregarObservable(juego, vistaPoderes);
-      vBoxHabilidades.getChildren().addAll(vistaPoderes);
-    }
+      VistaCoronacion vistaCoronacion = new VistaCoronacion(juego);
+      controladorJuego.agregarObservable(juego, vistaCoronacion);
+      vBoxCoronacion.getChildren().addAll(vistaCoronacion);
+      vBoxCoronacion.setVisible(true);
+  }
 
     public static void main(String[] args) {
         launch();

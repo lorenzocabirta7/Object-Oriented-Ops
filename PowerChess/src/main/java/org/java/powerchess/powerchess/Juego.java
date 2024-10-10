@@ -9,6 +9,7 @@ public class Juego extends Observable {
     private Jugador turnoActual;
     private boolean enJuego;
     private boolean tablasOfrecidas;
+    private boolean hayCoronacion = false;
 
     public Juego(Jugador jugador1, Jugador jugador2) {
         if (jugador1.getColor() == Color.BLANCO) {
@@ -28,7 +29,14 @@ public class Juego extends Observable {
     public boolean moverPieza(int xOrigen, int yOrigen, int xDestino, int yDestino) {
         if (enJuego) {
             if (turnoActual.moverPieza(xOrigen, yOrigen, xDestino, yDestino, this.tablero) ) {
-                cambiarTurno();
+                if (tablero.puedeCoronar(xDestino, yDestino)) {
+                    hayCoronacion = true;
+                    setChanged();
+                    notifyObservers(hayCoronacion);
+                }
+                else {
+                    cambiarTurno();
+                }
                 return true;
             }
         }
@@ -66,12 +74,12 @@ public class Juego extends Observable {
             System.out.println("El ganador es: " + ganador.getNombre());
         }
     }
-
+    
     public boolean partidaTerminada() {
       return !enJuego;
-  }
+    }
 
-    private void cambiarTurno() {
+    public void cambiarTurno() {
         Jugador oponente = (turnoActual == jugadorBlanco) ? jugadorNegro : jugadorBlanco;
 
         if (tablero.esJaqueMate(oponente.getColor())) {
@@ -92,4 +100,5 @@ public class Juego extends Observable {
     public Jugador obtenerJugadorActual() { return this.turnoActual; }
 
     public Color obtenerColorDelJugadorActual() { return this.turnoActual.getColor(); }
+
 }

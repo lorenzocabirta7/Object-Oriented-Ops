@@ -8,11 +8,11 @@ import org.java.powerchess.powerchess.Jugador;
 import org.java.powerchess.powerchess.Pieza;
 import org.java.powerchess.powerchess.Tablero;
 
-public class ControladorMouse implements EventHandler<MouseEvent> {
+public class ControladorMouseCasilla implements EventHandler<MouseEvent> {
     private Juego juego;
     private Pair<Integer,Integer> casillaActual;
 
-    public ControladorMouse(Juego juego, Pair<Integer, Integer> coordenadas) {
+    public ControladorMouseCasilla(Juego juego, Pair<Integer, Integer> coordenadas) {
         this.juego = juego;
         this.casillaActual = coordenadas;
     }
@@ -41,8 +41,5 @@ public class ControladorMouse implements EventHandler<MouseEvent> {
             }
 
         }
-        // aca se actualiza. TODO: esto deberia ser solo si la pieza le corresponde al jugador
-
-
     }
 }
