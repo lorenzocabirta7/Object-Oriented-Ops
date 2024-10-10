@@ -10,7 +10,7 @@ import org.java.powerchess.powerchess.Color;
 import org.java.powerchess.powerchess.Juego;
 import org.java.powerchess.powerchess.Pieza;
 import org.java.powerchess.powerchess.Tablero;
-import org.java.powerchess.powerchess.controlador.ControladorMouse;
+import org.java.powerchess.powerchess.controlador.ControladorMouseCasilla;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -63,7 +63,7 @@ public class VistaCasilla extends StackPane implements Observer {
             cargarImagenDePieza(pieza);
         }
 
-        ControladorMouse eventHandler = new ControladorMouse(this.juego, this.casillaActual);
+        ControladorMouseCasilla eventHandler = new ControladorMouseCasilla(this.juego, this.casillaActual);
         this.addEventHandler(MouseEvent.MOUSE_CLICKED, eventHandler);
     }
 
