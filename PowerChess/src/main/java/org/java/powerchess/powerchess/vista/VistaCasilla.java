@@ -44,7 +44,7 @@ public class VistaCasilla extends StackPane implements Observer {
 
     private final HashMap<String, String> imgEfecto = new HashMap<>() {{
       put("Freeze", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/freeze.png");
-      put("Shield", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/freeze.png");
+      put("Shield", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/shield.png");
   }};
 
     public VistaCasilla(Juego juego, Pair<Integer, Integer> casillaActual, double anchoCeldaGridPane, double alturaCeldaGridPane) {

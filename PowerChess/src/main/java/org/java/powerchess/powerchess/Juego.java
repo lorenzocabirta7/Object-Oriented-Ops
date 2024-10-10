@@ -67,6 +67,10 @@ public class Juego extends Observable {
         }
     }
 
+    public boolean partidaTerminada() {
+      return !enJuego;
+  }
+
     private void cambiarTurno() {
         Jugador oponente = (turnoActual == jugadorBlanco) ? jugadorNegro : jugadorBlanco;
 
