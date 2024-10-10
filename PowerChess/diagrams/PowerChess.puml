@@ -2,81 +2,112 @@
 'https://plantuml.com/class-diagram
 
 interface EstadoPieza{
-    + verificarMovimiento(xDestino: int, yDestino: int): boolean
+    + verificarMovimiento(xOrigen: int, yOrigen: int, xDestino: int, yDestino: int, tablero: Tablero): boolean
+    + esPeon(): boolean
+    + esRey(): boolean
+    + esTorre(): boolean
 }
 
 class Peon implements EstadoPieza{
-    + verificarMovimiento(xDestino: int, yDestino: int): boolean
+    - nombre: string
+    + verificarMovimiento(xOrigen: int, yOrigen: int, xDestino: int, yDestino: int, tablero: Tablero): boolean
+    + esPeon(): boolean
 }
 
 class Torre implements EstadoPieza{
-    + verificarMovimiento(xDestino: int, yDestino: int): boolean
+    - nombre: string
+    + verificarMovimiento(xOrigen: int, yOrigen: int, xDestino: int, yDestino: int, tablero: Tablero): boolean
+    + esTorre(): boolean
 }
 
 class Caballo implements EstadoPieza{
-    + verificarMovimiento(xDestino: int, yDestino: int): boolean
+    - nombre: string
+    + verificarMovimiento(xOrigen: int, yOrigen: int, xDestino: int, yDestino: int, tablero: Tablero): boolean
 }
 
 class Alfil implements EstadoPieza{
-    + verificarMovimiento(xDestino: int, yDestino: int): boolean
+    - nombre: string
+    + verificarMovimiento(xOrigen: int, yOrigen: int, xDestino: int, yDestino: int, tablero: Tablero): boolean
 }
 
 class Reina implements EstadoPieza{
-    + verificarMovimiento(xDestino: int, yDestino: int): boolean
+    - nombre: string
+    - torre: EstadoPieza
+    - alfil: EstadoPieza
+    + verificarMovimiento(xOrigen: int, yOrigen: int, xDestino: int, yDestino: int, tablero: Tablero): boolean
 }
 
 class Rey implements EstadoPieza{
-    + verificarMovimiento(xDestino: int, yDestino: int): boolean
+    - nombre: string
+    + verificarMovimiento(xOrigen: int, yOrigen: int, xDestino: int, yDestino: int, tablero: Tablero): boolean
+    + esRey(): boolean
 }
 
-interface Color{
+enum Color {
+    BLANCO
+    NEGRO
 }
-
-class Blanco implements Color{}
-
-class Negro implements Color{}
-
 
 class Pieza{
     - x: int
     - y: int
-    - poderAplicado: Poder
-    - color: Color
-    + mover(xDestino: int, yDestino: int)
-    + cambiarEstado(nuevoEstado: EstadoPieza)
-    + aplicarPoder(poder: Poder)
+    - fueMovida: boolean
+    - congelada: boolean
+    - escudada: boolean
+    + mover(xOrigen: int, yOrigen: int, xDestino: int, yDestino: int, tablero: Tablero)
+    + haSidoMovido(): boolean
+    + puedeCoronar(yActual: int): boolean
+    + coronar(nuevoEstado: EstadoPieza)
+    + esPeon(): boolean
+    + esRey(): boolean
+    + esTorre(): boolean
 }
 
-Pieza --> EstadoPieza
-
 class Tablero{
-    - cuadricula: Pieza[][]
+    - tamanio: int
+    - casillaSeleccionada: Pair
     - inicializarPiezas()
     - inicializarPiezasEspeciales(fila: int, color: Color)
     - posicionDentroDelTablero(x: int, y: int): boolean
-
-    + moverPieza(pieza: Pieza, xDestino: int, yDestino: int)
-    + casillaVacia(x: int, y: int)
+    - piezaEnemigaEscudada(xDestino: int, yDestino: int): boolean
+    + moverPieza(xOrigen: int, yOrigen: int, xDestino: int, yDestino: int, color: Color): boolean
+    + casillaVacia(x: int, y: int): boolean
+    + casillaEstaSeleccionada(coordenadas: Pair<Integer, Integer>): boolean
+    + cambiarSeleccionCasilla(coordenadas: Pair<Integer, Integer>)
+    + hayUnaCasillaSeleccionada(): boolean
+    + obtenerCasillaSeleccionada(): Pair<Integer, Integer>
     + hayPiezaEnemiga(x: int, y: int, color: Color)
-    + hayObstaculosEntre(xOrigen: int, yOrigen: int, xDestino: int, yDestino: int)
+    + hayObstaculosEntre(xOrigen: int, yOrigen: int, xDestino: int, yDestino: int): boolean
+    + encontrarRey(color: Color): Pieza
+    + estaEnJaque(jugador: Jugador): boolean
+    + esJaqueMate(jugador: Jugador): boolean
+    + puedeHacerEnroque(jugador: Jugador, enroqueCorto: boolean): boolean
+    + hacerEnroque(jugador: Jugador, enroqueCorto: boolean): boolean
     + obtenerPieza(x: int, y: int): Pieza
+    + obtenerPosicion(pieza: Pieza, obtenerX: boolean): int
+    + simularMovimientoYVerificarJaque(pieza: Pieza, xDestino: int, yDestino: int, jugador: Jugador): boolean
 }
 
-Jugador ..> Tablero
+Jugador "2"..>"1" Tablero
 
+Jugador "1"-->"1" Color
 
-Tablero *-- Pieza
+Pieza "1"-->"1" Color
+
+Tablero "1"*--"1..32" Pieza
+
+Pieza "1"*--"1" EstadoPieza
+
+Jugador "1"-->"0..7" Poder
+
+Juego "1"*--"2" Jugador
+Juego "1"*--"1" Tablero
 
 class Jugador{
-    - color: Color
     -poderes: Poder
     + moverPieza(unaPieza: Pieza, xDestino: int, yDestino: int)
 }
 
-class Partida{
-    + iniciar()
-    + terminar()
-}
 
 interface Poder{
     + activar(pieza: Pieza)
@@ -84,6 +115,8 @@ interface Poder{
 
 abstract class PoderDeDuracion implements Poder {
     + activar(pieza: Pieza)
+    + disminuirTurnos()
+    + desactivar(pieza: Pieza)
 }
 
 abstract class PoderDeAccion implements Poder {
@@ -91,29 +124,31 @@ abstract class PoderDeAccion implements Poder {
 }
 
 
-class Freeze implements PoderDeDuracion{
+class Freeze extends PoderDeDuracion{
     - duracion: int
     + activar(pieza: Pieza)
+    + desactivar(pieza: Pieza)
 }
 
-class Escudo implements PoderDeDuracion{
+class Escudo extends PoderDeDuracion{
     - duracion: int
     + activar(pieza: Pieza)
+    + desactivar(pieza: Pieza)
 }
 
-class DobleJuego implements PoderDeAccion{
+class DobleJuego extends PoderDeAccion{
     + activar(pieza: Pieza)
 }
 
-class Vuelo implements PoderDeAccion{
+class Vuelo extends PoderDeAccion{
     + activar(pieza: Pieza)
 }
 
-class RobarPoder implements PoderDeAccion{
+class RobarPoder extends PoderDeAccion{
     + activar(pieza: Pieza)
 }
 
-class Limpieza implements PoderDeAccion{
+class Limpieza extends PoderDeAccion{
     + activar(pieza: Pieza)
 }
 
@@ -121,24 +156,26 @@ class Evolucion implements Poder{
     + activar()
 }
 
-class Controlador{}
-
-class Vista{}
-
 class Jugador{
-    - color: Color
     - nombre: String
-    - poderes: List<Poder>
-    + moverPieza(unaPieza: Pieza, xDestino: int, yDestino: int, tablero: Tablero)
+    + moverPieza(xOrigen: int, yOrigen: int, xDestino: int, yDestino: int, tablero: Tablero)
     + activarPoder(poder: Poder, pieza: Pieza)
-    + ofrecerTablas()
-    + rendirse()
+    + desactivarPoder(poder: PoderDeDuracion, pieza: Pieza)
     + agregarPoder(poder: Poder)
     + removerPoder(poder: Poder)
-    + ofrecerTablas(juego: Juego)
-    + responderTablas(juego: Juego, acepta: boolean)
-    + rendirse(juego: Juego)
+    + actualizarPoderesDeDuracion()
 }
 
+class Juego{
+    - enJuego: boolean
+    - tablasOfrecidas: boolean
+    + moverPieza(xOrigen: int, yOrigen: int, xDestino: int, yDestino: int): boolean
+    + ofrecerTablas()
+    + responderTablas( acepta: boolean)
+    + rendirse()
+    + terminarPartida(ganador: Jugador)
+    + cambiarTurno()
+    + obtenerColorDelJugadorActual(): Color
+}
 
 @enduml

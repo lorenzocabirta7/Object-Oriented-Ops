@@ -68,13 +68,20 @@ public class Juego extends Observable {
     }
 
     private void cambiarTurno() {
-        turnoActual = (turnoActual == jugadorBlanco) ? jugadorNegro : jugadorBlanco;
+        Jugador oponente = (turnoActual == jugadorBlanco) ? jugadorNegro : jugadorBlanco;
+
+        if (tablero.esJaqueMate(oponente.getColor())) {
+            terminarPartida(turnoActual);
+            return;
+        }
+        turnoActual = oponente;
         tablasOfrecidas = false;
         jugadorBlanco.actualizarPoderesDeDuracion();
         jugadorNegro.actualizarPoderesDeDuracion();
         setChanged();
         notifyObservers();
     }
+
 
     public Tablero obtenerTablero() { return this.tablero; }
 
