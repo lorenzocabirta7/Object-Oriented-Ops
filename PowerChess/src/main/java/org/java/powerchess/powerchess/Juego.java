@@ -8,6 +8,7 @@ public class Juego extends Observable {
     private Tablero tablero;
     private Jugador turnoActual;
     private boolean enJuego;
+    private Jugador jugadorGanador;
     private boolean tablasOfrecidas;
     private boolean hayCoronacion = false;
 
@@ -45,38 +46,37 @@ public class Juego extends Observable {
 
     public void ofrecerTablas() {
         tablasOfrecidas = true;
-        System.out.println(turnoActual.getNombre() + " ha ofrecido tablas.");
     }
 
     public void responderTablas(boolean acepta) {
         if (tablasOfrecidas) {
             if (acepta) {
-                System.out.println("Ambos jugadores han acordado tablas.");
                 terminarPartida(null);
             } else {
-                System.out.println(turnoActual.getNombre() + " ha rechazado las tablas.");
                 tablasOfrecidas = false;
             }
         }
     }
 
-    public void rendirse() {
-        System.out.println(turnoActual.getNombre() + " se ha rendido.");
+    public void rendirse(){
         Jugador ganador = (turnoActual == jugadorBlanco) ? jugadorNegro : jugadorBlanco;
         terminarPartida(ganador);
     }
 
     public void terminarPartida(Jugador ganador) {
         enJuego = false;
-        if (ganador == null) {
-            System.out.println("La partida ha terminado en tablas.");
-        } else {
-            System.out.println("El ganador es: " + ganador.getNombre());
-        }
+        jugadorGanador = ganador;
+
+        setChanged();
+        notifyObservers();
     }
     
     public boolean partidaTerminada() {
       return !enJuego;
+    }
+
+    public Jugador getJugadorGanador() {
+      return jugadorGanador;
     }
 
     public void cambiarTurno() {

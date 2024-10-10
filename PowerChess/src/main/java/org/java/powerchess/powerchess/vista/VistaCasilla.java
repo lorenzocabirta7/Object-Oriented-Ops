@@ -131,8 +131,8 @@ public class VistaCasilla extends StackPane implements Observer {
             getChildren().add(efectoImgView);
           }
           
-            
 
+          
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
