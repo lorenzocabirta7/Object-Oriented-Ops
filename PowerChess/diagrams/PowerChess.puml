@@ -120,7 +120,7 @@ abstract class PoderDeDuracion implements Poder {
 }
 
 abstract class PoderDeAccion implements Poder {
-    + activar(pieza: Pieza))
+    + activar(pieza: Pieza)
 }
 
 

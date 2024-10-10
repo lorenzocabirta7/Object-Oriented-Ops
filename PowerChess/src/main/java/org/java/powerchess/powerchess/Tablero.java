@@ -76,7 +76,7 @@ public class Tablero extends Observable {
             setChanged();
             return true;
         }
-        return false;
+        throw new MovimientoInvalidoException();
     }
 
     public boolean casillaVacia(int x, int y) {

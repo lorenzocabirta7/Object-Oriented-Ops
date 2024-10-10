@@ -41,6 +41,9 @@ public class Juego extends Observable {
                 return true;
             }
         }
+        else {
+            throw new MovimientoInvalidoException();
+        }
         return false;
     }
 

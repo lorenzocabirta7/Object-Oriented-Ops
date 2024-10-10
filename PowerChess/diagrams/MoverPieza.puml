@@ -1,0 +1,37 @@
+@startuml
+actor Usuario
+
+Usuario -> Juego : moverPieza(xOrigen, yOrigen, xDestino, yDestino)
+activate Juego
+
+Juego -> Jugador : moverPieza(xOrigen, yOrigen, xDestino, yDestino, tablero)
+activate Jugador
+
+Jugador -> Tablero : moverPieza(xOrigen, yOrigen, xDestino, yDestino, color)
+activate Tablero
+
+Tablero -> Tablero : obtenerPieza(xOrigen, yOrigen)
+Tablero --> Tablero : Pieza
+
+Tablero -> Pieza : mover(xOrigen, yOrigen, xDestino, yDestino, this)
+activate Pieza
+
+Pieza -> EstadoPieza : verificarMovimiento(xOrigen, yOrigen, xDestino, yDestino, tablero)
+activate EstadoPieza
+
+EstadoPieza --> Pieza : resultadoMovimiento
+deactivate EstadoPieza
+
+Pieza --> Tablero : resultadoMovimiento
+deactivate Pieza
+
+Tablero --> Jugador : resultadoMovimiento
+deactivate Tablero
+
+Jugador --> Juego : resultadoMovimiento
+deactivate Jugador
+
+Juego --> Usuario : resultadoMovimiento
+deactivate Juego
+
+@enduml

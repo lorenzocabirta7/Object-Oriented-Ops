@@ -18,7 +18,6 @@ public class Jugador extends Observable {
     this.agregarPoder(new Limpieza());
     this.agregarPoder(new Freeze());
     this.poderSeleccionado = null;
-    // Hardcodear poderes
   }
 
   public boolean moverPieza(int xOrigen, int yOrigen, int xDestino, int yDestino, Tablero tablero) {
@@ -44,15 +43,12 @@ public class Jugador extends Observable {
   } 
 
   public void activarPoder(Poder poder, Pieza pieza) {
-    if (poderes.contains(poder)) {
-      poder.activar(pieza);
-      setChanged();
-      notifyObservers();
+    if (!poderes.contains(poder)) {
+      throw new PoderInvalidoException();
     }
-  }
-
-  public void desactivarPoder(PoderDeDuracion poder) {
-    poder.desactivar();
+    poder.activar(pieza);
+    setChanged();
+    notifyObservers();
   }
 
   public String getNombre() {
@@ -69,12 +65,6 @@ public class Jugador extends Observable {
 
   public void agregarPoder(Poder poder) {
     poderes.add(poder);
-  }
-
-  public void removerPoder(Poder poder) {
-    if (poderes.contains(poder)) {
-      poderes.remove(poder);
-    }
   }
 
   public void actualizarPoderesDeDuracion() {
