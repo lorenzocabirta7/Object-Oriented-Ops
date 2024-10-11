@@ -1,0 +1,83 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class ControladorJuego{
+    - observables: List<Pair<Observable, Observer>>
+    + agregarObservable(modelo: Observable, vista: Observer)
+    + avanzarTurno(): boolean
+}
+
+class ControladorMouseCasilla implements EventHandler<MouseEvent>{
+    - casillaActual: Pair<Integer,Integer>
+    + handle(e: MouseEvent)
+}
+
+class ControladorMouseCoronacion{
+    - imageViews: List<ImageView>
+    - panelVisible: boolean
+    + handleImageViewClicked(event: MouseEvent)
+}
+
+class ControladorMousePoderes implements EventHandler<MouseEvent> {
+    - poderActual: Poder
+    + handle(e: MouseEvent)
+}
+
+class VistaCasilla extends StackPane implements Observer {
+    - casillaActual: Pair<Integer, Integer>
+    - piezaImgView: ImageView
+    - efectoImgView: ImageView
+    - anchoCeldaGridPane: double
+    - alturaCeldaGridPane: double
+    + update(observable: Observable, o: Object)
+    + cargarImagenDePieza(pieza: Pieza)
+}
+
+class VistaCoronacion extends VBox implements Observer {
+    - gridPiezas: GridPane
+    - imageViews: List<ImageView>
+    - panelVisible: boolean
+    - panelVisible: Text
+    + update(observable: Observable, o: Object)
+}
+
+class VistaFinPartida implements Observer {
+    - rootFinal: Parent
+    - stage: Stage
+    + update(observable: Observable, o: Object)
+}
+
+class VistaPoder extends VBox implements Observer {
+    + update(observable: Observable, o: Object)
+}
+
+class Juego{
+    - enJuego: boolean
+    - tablasOfrecidas: boolean
+    + moverPieza(xOrigen: int, yOrigen: int, xDestino: int, yDestino: int): boolean
+    + ofrecerTablas()
+    + responderTablas( acepta: boolean)
+    + rendirse()
+    + terminarPartida(ganador: Jugador)
+    + cambiarTurno()
+    + obtenerColorDelJugadorActual(): Color
+}
+
+Juego ..|> Observable
+
+VistaCasilla --> Juego
+VistaCoronacion --> Juego
+VistaFinPartida --> Juego
+VistaPoder --> Juego
+
+ControladorJuego --> Juego
+ControladorMouseCasilla --> Juego
+ControladorMouseCoronacion --> Juego
+ControladorMousePoderes --> Juego
+
+ControladorJuego --> VistaFinPartida
+ControladorMouseCasilla --> VistaCasilla
+ControladorMouseCoronacion --> VistaCoronacion
+ControladorMousePoderes --> VistaPoder
+
+@enduml
