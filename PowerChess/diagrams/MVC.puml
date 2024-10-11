@@ -63,6 +63,17 @@ class Juego{
     + obtenerColorDelJugadorActual(): Color
 }
 
+
+class VistaJugador implements Observer{
+    - hBoxJugadorBlanco: HBox
+    - hBoxJugadorNegro: HBox
+    - textoJugador: Text
+    +update(observable: Observable, o: Object)
+
+}
+
+VistaJugador --> Juego
+
 Juego ..|> Observable
 
 VistaCasilla --> Juego

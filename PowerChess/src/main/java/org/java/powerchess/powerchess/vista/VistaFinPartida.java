@@ -31,7 +31,7 @@ public class VistaFinPartida implements Observer {
       Scene scene = new Scene(rootFinal, 700, 700);
       Text resultadoJuego = (Text) rootFinal.lookup("#resultadoJuego");
       if(juego.getJugadorGanador() != null){
-        resultadoJuego.setText("Partida ganada por el jugador " + juego.getJugadorGanador().getNombre());
+        resultadoJuego.setText("Partida ganada por el " + juego.getJugadorGanador().getNombre());
       }else{
         resultadoJuego.setText("La partida termina en tablas");
       }

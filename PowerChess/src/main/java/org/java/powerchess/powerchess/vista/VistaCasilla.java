@@ -28,23 +28,23 @@ public class VistaCasilla extends StackPane implements Observer {
     private boolean huboMovimiento = false;
 
     private final HashMap<String, String> imgPieza = new HashMap<>() {{
-      put("TorreB", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/torreBlanca.png");
-      put("AlfilB", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/alfilBlanco.png");
-      put("CaballoB", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/caballoBlanco.png");
-      put("ReinaB", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/reinaBlanca.png");
-      put("ReyB", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/reyBlanco.png");
-      put("PeonB", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/peonBlanco.png");
-      put("TorreN", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/torreNegra.png");
-      put("AlfilN", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/alfilNegro.png");
-      put("CaballoN", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/caballoNegro.png");
-      put("ReinaN", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/reinaNegra.png");
-      put("ReyN", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/reyNegro.png");
-      put("PeonN", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/peonNegro.png");
+      put("TorreB", "src/main/java/org/java/powerchess/powerchess/vista/imagenes/torreBlanca.png");
+      put("AlfilB", "src/main/java/org/java/powerchess/powerchess/vista/imagenes/alfilBlanco.png");
+      put("CaballoB", "src/main/java/org/java/powerchess/powerchess/vista/imagenes/caballoBlanco.png");
+      put("ReinaB", "src/main/java/org/java/powerchess/powerchess/vista/imagenes/reinaBlanca.png");
+      put("ReyB", "src/main/java/org/java/powerchess/powerchess/vista/imagenes/reyBlanco.png");
+      put("PeonB", "src/main/java/org/java/powerchess/powerchess/vista/imagenes/peonBlanco.png");
+      put("TorreN", "src/main/java/org/java/powerchess/powerchess/vista/imagenes/torreNegra.png");
+      put("AlfilN", "src/main/java/org/java/powerchess/powerchess/vista/imagenes/alfilNegro.png");
+      put("CaballoN", "src/main/java/org/java/powerchess/powerchess/vista/imagenes/caballoNegro.png");
+      put("ReinaN", "src/main/java/org/java/powerchess/powerchess/vista/imagenes/reinaNegra.png");
+      put("ReyN", "src/main/java/org/java/powerchess/powerchess/vista/imagenes/reyNegro.png");
+      put("PeonN", "src/main/java/org/java/powerchess/powerchess/vista/imagenes/peonNegro.png");
   }};
 
     private final HashMap<String, String> imgEfecto = new HashMap<>() {{
-      put("Freeze", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/freeze.png");
-      put("Shield", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/shield.png");
+      put("Freeze", "src/main/java/org/java/powerchess/powerchess/vista/imagenes/freeze.png");
+      put("Shield", "src/main/java/org/java/powerchess/powerchess/vista/imagenes/shield.png");
   }};
 
     public VistaCasilla(Juego juego, Pair<Integer, Integer> casillaActual, double anchoCeldaGridPane, double alturaCeldaGridPane) {
