@@ -28,18 +28,18 @@ public class VistaCasilla extends StackPane implements Observer {
     private boolean huboMovimiento = false;
 
     private final HashMap<String, String> imgPieza = new HashMap<>() {{
-      put("TorreB", "C:\\Users\\Lucas\\Documents\\Object-Oriented-Ops\\PowerChess\\src\\main\\java\\org\\java\\powerchess\\powerchess\\vista\\imagenes\\torreBlanca.png");
-      put("AlfilB", "C:\\Users\\Lucas\\Documents\\Object-Oriented-Ops\\PowerChess\\src\\main\\java\\org\\java\\powerchess\\powerchess\\vista\\imagenes\\alfilBlanco.png");
-      put("CaballoB", "C:\\Users\\Lucas\\Documents\\Object-Oriented-Ops\\PowerChess\\src\\main\\java\\org\\java\\powerchess\\powerchess\\vista\\imagenes\\caballoBlanco.png");
-      put("ReinaB", "C:\\Users\\Lucas\\Documents\\Object-Oriented-Ops\\PowerChess\\src\\main\\java\\org\\java\\powerchess\\powerchess\\vista\\imagenes\\reinaBlanca.png");
-      put("ReyB", "C:\\Users\\Lucas\\Documents\\Object-Oriented-Ops\\PowerChess\\src\\main\\java\\org\\java\\powerchess\\powerchess\\vista\\imagenes\\reyBlanco.png");
-      put("PeonB", "C:\\Users\\Lucas\\Documents\\Object-Oriented-Ops\\PowerChess\\src\\main\\java\\org\\java\\powerchess\\powerchess\\vista\\imagenes\\peonBlanco.png");
-      put("TorreN", "C:\\Users\\Lucas\\Documents\\Object-Oriented-Ops\\PowerChess\\src\\main\\java\\org\\java\\powerchess\\powerchess\\vista\\imagenes\\torreNegra.png");
-      put("AlfilN", "C:\\Users\\Lucas\\Documents\\Object-Oriented-Ops\\PowerChess\\src\\main\\java\\org\\java\\powerchess\\powerchess\\vista\\imagenes\\alfilNegro.png");
-      put("CaballoN", "C:\\Users\\Lucas\\Documents\\Object-Oriented-Ops\\PowerChess\\src\\main\\java\\org\\java\\powerchess\\powerchess\\vista\\imagenes\\caballoNegro.png");
-      put("ReinaN", "C:\\Users\\Lucas\\Documents\\Object-Oriented-Ops\\PowerChess\\src\\main\\java\\org\\java\\powerchess\\powerchess\\vista\\imagenes\\reinaNegra.png");
-      put("ReyN", "C:\\Users\\Lucas\\Documents\\Object-Oriented-Ops\\PowerChess\\src\\main\\java\\org\\java\\powerchess\\powerchess\\vista\\imagenes\\reyNegro.png");
-      put("PeonN", "C:\\Users\\Lucas\\Documents\\Object-Oriented-Ops\\PowerChess\\src\\main\\java\\org\\java\\powerchess\\powerchess\\vista\\imagenes\\peonNegro.png");
+      put("TorreB", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/torreBlanca.png");
+      put("AlfilB", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/alfilBlanco.png");
+      put("CaballoB", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/caballoBlanco.png");
+      put("ReinaB", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/reinaBlanca.png");
+      put("ReyB", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/reyBlanco.png");
+      put("PeonB", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/peonBlanco.png");
+      put("TorreN", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/torreNegra.png");
+      put("AlfilN", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/alfilNegro.png");
+      put("CaballoN", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/caballoNegro.png");
+      put("ReinaN", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/reinaNegra.png");
+      put("ReyN", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/reyNegro.png");
+      put("PeonN", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/peonNegro.png");
   }};
 
     private final HashMap<String, String> imgEfecto = new HashMap<>() {{
