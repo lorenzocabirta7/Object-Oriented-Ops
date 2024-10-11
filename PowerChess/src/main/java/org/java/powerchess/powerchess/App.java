@@ -22,6 +22,7 @@ import org.java.powerchess.powerchess.controlador.ControladorJuego;
 import org.java.powerchess.powerchess.vista.VistaCasilla;
 import org.java.powerchess.powerchess.vista.VistaCoronacion;
 import org.java.powerchess.powerchess.vista.VistaFinPartida;
+import org.java.powerchess.powerchess.vista.VistaJugador;
 import org.java.powerchess.powerchess.vista.VistaPoder;
 
 import java.io.IOException;
@@ -52,16 +53,6 @@ public class App extends Application {
 
     VBox vBoxHabilidades = (VBox) root.lookup("#vBoxHabilidades");
     VBox vBoxCoronacion = (VBox) root.lookup("#vBoxCoronacion");
-
-    HBox hBoxJugadorNegro = (HBox) root.lookup("#hBoxJugadorNegro");
-
-    HBox hBoxJugadorBlanco = (HBox) root.lookup("#hBoxJugadorBlanco");
-
-    if (juego.obtenerJugadorActual().getColor() == Color.BLANCO) {
-      hBoxJugadorBlanco.setStyle(" -fx-background-color: white;");
-    } else {
-      hBoxJugadorNegro.setStyle(" -fx-background-color: white;");
-    }
 
     Button btnTablas = (Button) root.lookup("#buttonProponerTablas");
 
@@ -117,6 +108,7 @@ public class App extends Application {
     cargarHabilidades(juego, vBoxHabilidades);
     cargarCajaDeCoronacion(juego, vBoxCoronacion);
     cargarPantallaFinal(juego, primaryStage);
+    cargarJugadorActual(juego, root);
   }
 
   public void cargarTablero(Juego juego, GridPane gridPaneTablero) {
@@ -158,6 +150,16 @@ public class App extends Application {
 
     VistaFinPartida vistaFinPartida = new VistaFinPartida(juego, loaderFinal, primaryStage);
     controladorJuego.agregarObservable(juego, vistaFinPartida);
+  }
+
+  public void cargarJugadorActual(Juego juego, Parent root) throws IOException {
+    ControladorJuego controladorJuego = new ControladorJuego(juego);
+    HBox hBoxJugadorBlanco = (HBox) root.lookup("#hBoxJugadorBlanco");
+    HBox hBoxJugadorNegro = (HBox) root.lookup("#hBoxJugadorNegro");    
+    Text textJugador = (Text) root.lookup("#PlayerName");
+
+    VistaJugador vistaJugador = new VistaJugador(juego, hBoxJugadorBlanco, hBoxJugadorNegro,textJugador);
+    controladorJuego.agregarObservable(juego, vistaJugador);
   }
 
   public static void main(String[] args) {
