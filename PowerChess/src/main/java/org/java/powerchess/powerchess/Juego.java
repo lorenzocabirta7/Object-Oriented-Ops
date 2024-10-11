@@ -28,24 +28,27 @@ public class Juego extends Observable {
     }
 
     public boolean moverPieza(int xOrigen, int yOrigen, int xDestino, int yDestino) {
-        if (enJuego) {
-            if (turnoActual.moverPieza(xOrigen, yOrigen, xDestino, yDestino, this.tablero) ) {
-                if (tablero.puedeCoronar(xDestino, yDestino)) {
-                    hayCoronacion = true;
-                    setChanged();
-                    notifyObservers(hayCoronacion);
+        try {
+            if (enJuego) {
+                if (turnoActual.moverPieza(xOrigen, yOrigen, xDestino, yDestino, this.tablero)) {
+                    if (tablero.puedeCoronar(xDestino, yDestino)) {
+                        hayCoronacion = true;
+                        setChanged();
+                        notifyObservers(hayCoronacion);
+                    } else {
+                        cambiarTurno();
+                    }
+                    return true;
                 }
-                else {
-                    cambiarTurno();
-                }
-                return true;
+            } else {
+                throw new MovimientoInvalidoException();
             }
-        }
-        else {
-            throw new MovimientoInvalidoException();
+        } catch (MovimientoInvalidoException e) {
+            return false;
         }
         return false;
     }
+
 
     public void ofrecerTablas() {
         tablasOfrecidas = true;

@@ -52,33 +52,41 @@ public class Tablero extends Observable {
     // TODO: antes de mover una pieza, hay que chequear si el rey esta en jaque. En ese caso,
     // solo se deben de poder mover las piezas que eviten que el rey caiga en jaque
     public boolean moverPieza(int xOrigen, int yOrigen, int xDestino, int yDestino, Color color) {
-        Pieza pieza;
-        if ( ( pieza = this.obtenerPieza(xOrigen, yOrigen) ) == null) { return false; }
-        if ( pieza.getColor() != color ) { return false; }
-
-        Pieza piezaDestino = obtenerPieza(xDestino, yDestino);
-        if ( ! hayPiezaEnemiga(xDestino, yDestino, color) && piezaDestino != null ) {
-            if ( ( pieza.esTorre() && piezaDestino.esRey() ) || (pieza.esRey() && piezaDestino.esTorre() ) ) {
-                return hacerEnroque(color, xOrigen, xDestino);
+        try {
+            Pieza pieza;
+            if ((pieza = this.obtenerPieza(xOrigen, yOrigen)) == null) {
+                return false;
             }
+            if (pieza.getColor() != color) {
+                return false;
+            }
+
+            Pieza piezaDestino = obtenerPieza(xDestino, yDestino);
+            if (!hayPiezaEnemiga(xDestino, yDestino, color) && piezaDestino != null) {
+                if ((pieza.esTorre() && piezaDestino.esRey()) || (pieza.esRey() && piezaDestino.esTorre())) {
+                    return hacerEnroque(color, xOrigen, xDestino);
+                }
+            }
+            if (pieza.mover(xOrigen, yOrigen, xDestino, yDestino, this)) {
+                if (hayPiezaEnemiga(xDestino, yDestino, color) && piezaEnemigaEscudada(xDestino, yDestino)) {
+                    return false;
+                }
+
+                if (!simularMovimientoYVerificarQueNoEstaEnJaque(pieza, xDestino, yDestino, color)) {
+                    return false;
+                }
+
+                casillas.get(xDestino).set(yDestino, pieza);
+                casillas.get(xOrigen).set(yOrigen, null);
+                setChanged();
+                return true;
+            }
+
+            throw new MovimientoInvalidoException();
+        } catch (MovimientoInvalidoException e) {
+            return false;
         }
-
-        Color colorEnemigo = ( color == Color.BLANCO ) ? Color.NEGRO: Color.BLANCO;
-
-        if (pieza.mover(xOrigen, yOrigen, xDestino, yDestino, this) ) {
-            if ( hayPiezaEnemiga(xDestino, yDestino, color) && piezaEnemigaEscudada(xDestino, yDestino) ) return false;
-
-            if ( ! simularMovimientoYVerificarQueNoEstaEnJaque(pieza, xDestino, yDestino, color) ) return false;
-
-            casillas.get(xDestino).set(yDestino, pieza);
-            casillas.get(xOrigen).set(yOrigen, null);
-
-            setChanged();
-            return true;
-        }
-        throw new MovimientoInvalidoException();
     }
-
     public boolean casillaVacia(int x, int y) {
         return posicionDentroDelTablero(x, y) && casillas.get(x).get(y) == null;
     }

@@ -40,15 +40,18 @@ public class Jugador extends Observable {
 
   public boolean hayUnPoderSeleccionado() {
     return this.poderSeleccionado != null;
-  } 
+  }
 
   public void activarPoder(Poder poder, Pieza pieza) {
-    if (!poderes.contains(poder)) {
-      throw new PoderInvalidoException();
+    try {
+      if (!poderes.contains(poder)) {
+        throw new PoderInvalidoException();
+      }
+      poder.activar(pieza);
+      setChanged();
+      notifyObservers();
+    } catch (PoderInvalidoException e) {
     }
-    poder.activar(pieza);
-    setChanged();
-    notifyObservers();
   }
 
   public String getNombre() {
