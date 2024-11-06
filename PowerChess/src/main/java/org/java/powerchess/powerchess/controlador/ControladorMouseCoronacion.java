@@ -32,22 +32,25 @@ public class ControladorMouseCoronacion {
 
         ImageView clickedImageView = (ImageView) event.getSource();
 
-        EstadoPieza nuevoEstado = null;
+        Pieza nuevaPieza = null;
+
+        /* TODO: Hardcodee el color de la Pieza, fixearlo despues*/
 
         if (clickedImageView == imageViews.get(0)) {
-            nuevoEstado = new Torre();
+            nuevaPieza = new Torre(Color.BLANCO);
         } else if (clickedImageView == imageViews.get(1)) {
-            nuevoEstado = new Alfil();
+            nuevaPieza = new Alfil(Color.BLANCO);
         } else if (clickedImageView == imageViews.get(2)) {
-            nuevoEstado = new Caballo();
+            nuevaPieza = new Caballo(Color.BLANCO);
         } else if (clickedImageView == imageViews.get(3)) {
-            nuevoEstado = new Reina(new Torre(), new Alfil());
+            // TODO: Reina. Implementarlo
+            //nuevaPieza = new Reina(new Torre(), new Alfil());
         } else {
             // El jugador hizo click en otra parte, no hacer nada
         }
 
-        if (nuevoEstado != null) {
-            tablero.coronar(x, y, nuevoEstado);
+        if (nuevaPieza != null) {
+            tablero.coronar(x, y, nuevaPieza);
             panelVisible = false;
             juego.cambiarTurno();
         }

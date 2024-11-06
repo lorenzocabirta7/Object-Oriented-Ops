@@ -1,7 +1,11 @@
 package org.java.powerchess.powerchess;
 
-public class Rey implements EstadoPieza {
-    private final String nombre = "Rey";
+public class Rey extends Pieza {
+
+    public Rey(Color color) {
+        super(color);
+        this.nombre = "Rey";
+    }
 
     @Override
     public boolean verificarMovimiento(int xOrigen, int yOrigen, int xDestino, int yDestino, Tablero tablero) {
@@ -12,12 +16,4 @@ public class Rey implements EstadoPieza {
                 && (tablero.casillaVacia(xDestino, yDestino) || tablero.hayPiezaEnemiga(xDestino, yDestino, tablero.obtenerPieza(xOrigen, yOrigen).getColor()));
     }
 
-    @Override
-    public boolean esRey() {
-        return true;
-    }
-
-    public String getNombre() {
-        return this.nombre;
-    }
 }

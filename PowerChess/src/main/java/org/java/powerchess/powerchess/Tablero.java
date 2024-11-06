@@ -25,23 +25,22 @@ public class Tablero extends Observable {
 
     private void inicializarPiezas() {
         for (int i = 0; i < tamanio; i++) {
-            casillas.get(i).set(1, new Pieza(Color.BLANCO, new Peon()));
-            casillas.get(i).set(6, new Pieza(Color.NEGRO, new Peon()));
+            casillas.get(i).set(1, new Peon(Color.BLANCO));
+            casillas.get(i).set(6, new Peon(Color.NEGRO));
         }
         inicializarPiezasEspeciales(0, Color.BLANCO);
         inicializarPiezasEspeciales(7, Color.NEGRO);
     }
 
     private void inicializarPiezasEspeciales(int fila, Color color) {
-        casillas.get(0).set(fila, new Pieza(color, new Torre()));
-        casillas.get(7).set(fila, new Pieza(color, new Torre()));
-        casillas.get(1).set(fila, new Pieza(color, new Caballo()));
-        casillas.get(6).set(fila, new Pieza(color, new Caballo()));
-        casillas.get(2).set(fila, new Pieza(color, new Alfil()));
-        casillas.get(5).set(fila, new Pieza(color, new Alfil()));
-        casillas.get(4).set(fila, new Pieza(color, new Reina(new Torre(), new Alfil())));
-        casillas.get(3).set(fila, new Pieza(color, new Rey()));
-
+        casillas.get(0).set(fila, new Torre(color));
+        casillas.get(7).set(fila, new Torre(color));
+        casillas.get(1).set(fila, new Caballo(color));
+        casillas.get(6).set(fila, new Caballo(color));
+        casillas.get(2).set(fila, new Alfil(color));
+        casillas.get(5).set(fila, new Alfil(color));
+        casillas.get(4).set(fila, new Reina(color));
+        casillas.get(3).set(fila, new Rey(color));
     }
 
     private boolean piezaEnemigaEscudada(int xDestino, int yDestino){
@@ -62,11 +61,13 @@ public class Tablero extends Observable {
             }
 
             Pieza piezaDestino = obtenerPieza(xDestino, yDestino);
+            // TODO: reimplementar logica del enroque
+            /*
             if (!hayPiezaEnemiga(xDestino, yDestino, color) && piezaDestino != null) {
                 if ((pieza.esTorre() && piezaDestino.esRey()) || (pieza.esRey() && piezaDestino.esTorre())) {
                     return hacerEnroque(color, xOrigen, xDestino);
                 }
-            }
+            }*/
             if (pieza.mover(xOrigen, yOrigen, xDestino, yDestino, this)) {
                 if (hayPiezaEnemiga(xDestino, yDestino, color) && piezaEnemigaEscudada(xDestino, yDestino)) {
                     return false;
@@ -307,9 +308,10 @@ public class Tablero extends Observable {
         return  pieza != null && pieza.puedeCoronar(y);
     }
 
-    public void coronar(int x, int y, EstadoPieza nuevoEstado) {
-        Pieza pieza = this.casillas.get(x).get(y);
-        pieza.coronar(nuevoEstado);
+    public void coronar(int x, int y, Pieza nuevaPieza) {
+        Pieza piezaActual = this.casillas.get(x).get(y);
+        //piezaActual.coronar(nuevaPieza);
+        /*TODO: aca deberia de cambiar la pieza directamente en el tablero*/
         setChanged();
     }
 }

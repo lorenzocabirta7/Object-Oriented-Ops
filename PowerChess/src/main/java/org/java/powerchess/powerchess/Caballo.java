@@ -1,7 +1,12 @@
 package org.java.powerchess.powerchess;
 
-public class Caballo implements EstadoPieza {
-    private final String nombre = "Caballo";
+public class Caballo extends Pieza {
+
+    public Caballo(Color color) {
+        super(color);
+        this.nombre = "Caballo";
+    }
+
     @Override
     public boolean verificarMovimiento(int xOrigen, int yOrigen, int xDestino, int yDestino, Tablero tablero) {
         int deltaX = Math.abs(xDestino - xOrigen);
@@ -13,7 +18,4 @@ public class Caballo implements EstadoPieza {
         return false;
     }
 
-    public String getNombre() {
-        return this.nombre;
-    }
 }

@@ -1,7 +1,12 @@
 package org.java.powerchess.powerchess;
 
-public class Alfil implements EstadoPieza {
-    private final String nombre = "Alfil";
+public class Alfil extends Pieza {
+
+    public Alfil(Color color){
+        super(color);
+        this.nombre = "Alfil";
+    }
+
     @Override
     public boolean verificarMovimiento(int xOrigen, int yOrigen, int xDestino, int yDestino, Tablero tablero) {
         if (Math.abs(xDestino - xOrigen) != Math.abs(yDestino - yOrigen)) {
@@ -16,7 +21,4 @@ public class Alfil implements EstadoPieza {
         return false;
     }
 
-    public String getNombre() {
-        return this.nombre;
-    }
 }

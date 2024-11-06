@@ -1,7 +1,11 @@
 package org.java.powerchess.powerchess;
 
-public class Torre implements EstadoPieza {
-    private final String nombre = "Torre";
+public class Torre extends Pieza {
+
+    public Torre(Color color) {
+        super(color);
+        this.nombre = "Torre";
+    }
 
     @Override
     public boolean verificarMovimiento(int xOrigen, int yOrigen, int xDestino, int yDestino, Tablero tablero) {
@@ -14,12 +18,4 @@ public class Torre implements EstadoPieza {
         return false;
     }
 
-    @Override
-    public boolean esTorre() {
-        return true;
-    }
-
-    public String getNombre() {
-        return this.nombre;
-    }
 }
