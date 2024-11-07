@@ -9,14 +9,14 @@ public class Reina extends Pieza {
 
     @Override
     public boolean verificarMovimiento(int xOrigen, int yOrigen, int xDestino, int yDestino, Tablero tablero) {
-        /* TODO: IMPLEMENTAR EL MOVIMIENTO DE LA REINA  */
-        /*if (torre.verificarMovimiento(xOrigen, yOrigen, xDestino, yDestino, tablero)) {
-            return true;
+        if ( (xOrigen != xDestino && yOrigen != yDestino) && (Math.abs(xDestino - xOrigen) != Math.abs(yDestino - yOrigen)) ) {
+            // Si no se mueve en linea recta ni en diagonal, devuelvo false
+            return false;
         }
 
-        if (alfil.verificarMovimiento(xOrigen, yOrigen, xDestino, yDestino, tablero)) {
-            return true;
-        }*/
+        if (!tablero.hayObstaculosEntre(xOrigen, yOrigen, xDestino, yDestino)) {
+            return tablero.casillaVacia(xDestino, yDestino) || tablero.hayPiezaEnemiga(xDestino, yDestino, tablero.obtenerPieza(xOrigen, yOrigen).getColor());
+        }
 
         return false;
     }
