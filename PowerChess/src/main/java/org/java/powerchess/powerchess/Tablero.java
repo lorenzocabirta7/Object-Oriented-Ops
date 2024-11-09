@@ -148,7 +148,7 @@ public class Tablero extends Observable {
     public Pieza encontrarRey(Color color) {
         for (List<Pieza> fila : casillas) {
             for (Pieza pieza : fila) {
-                if (pieza != null && pieza.esRey() && pieza.getColor() == color) {
+                if (pieza != null && pieza.equals(new Rey(color))) {
                     return pieza;
                 }
             }
@@ -156,34 +156,8 @@ public class Tablero extends Observable {
         return null;
     }
 
-    private boolean _chequearSiUnaCasillaEstaSiendoAtacada(int xCasillaObjetivo, int yCasillaObjetivo, Color colorEnemigo) {
-        for (List<Pieza> fila : casillas) {
-            for (Pieza pieza : fila) {
-                if (pieza != null && pieza.getColor() == colorEnemigo) {
-                    int xPiezaEnemiga = obtenerPosicion(pieza, true);
-                    int yPiezaEnemiga = obtenerPosicion(pieza, false);
-                    if (pieza.mover(xPiezaEnemiga, yPiezaEnemiga, xCasillaObjetivo, yCasillaObjetivo, this)) {
-                        return true;
-                    }
-                }
-            }
-        }
-
-        return false;
-    }
-
-    public boolean estaEnJaque(Color colorDelJugador) {
-        Pieza rey = encontrarRey(colorDelJugador);
-        if (rey == null) return false;
-
-        int xRey = obtenerPosicion(rey, true);
-        int yRey = obtenerPosicion(rey, false);
-
-        Color colorEnemigo = ( colorDelJugador == Color.NEGRO  ) ? Color.BLANCO : Color.NEGRO;
-
-        return _chequearSiUnaCasillaEstaSiendoAtacada(xRey, yRey, colorEnemigo);
-    }
-
+    /* TODO: mover a Rey y readaptar*/
+    /*
     public boolean esJaqueMate(Color colorDelJugador) {
         if (!estaEnJaque(colorDelJugador)) {
             return false;
@@ -217,7 +191,10 @@ public class Tablero extends Observable {
             }
         }
         return true;
-    }
+    }*/
+
+    /*TODO: mover a otra clase y readaptar*/
+    /*
 
     private boolean _esEnroqueCorto(int xTorre, int xRey) {
         return Math.abs( xTorre - xRey ) == 3 ;
@@ -271,7 +248,7 @@ public class Tablero extends Observable {
             return true;
         }
         return false;
-    }
+    }*/
 
     public int obtenerPosicion(Pieza pieza, boolean obtenerX) {
         for (int x = 0; x < tamanio; x++) {
@@ -295,7 +272,9 @@ public class Tablero extends Observable {
         casillas.get(xDestino).set(yDestino, pieza);
         casillas.get(xOrigen).set(yOrigen, null);
 
-        boolean noEstaEnJaque = ! estaEnJaque(colorDelJugador);
+        Rey rey = (Rey) encontrarRey(colorDelJugador);
+
+        boolean noEstaEnJaque = ! rey.verSiEstaEnJaque(this);
 
         casillas.get(xOrigen).set(yOrigen, pieza);
         casillas.get(xDestino).set(yDestino, piezaDestinoOriginal);
@@ -311,5 +290,19 @@ public class Tablero extends Observable {
     public void coronar(int x, int y, Pieza nuevaPieza) {
         this.casillas.get(x).set(y, nuevaPieza);
         setChanged();
+    }
+
+    public List<Pieza> obtenerPiezasEnemigas(Color colorDelJugador) {
+        List<Pieza> piezasEnemigas = new ArrayList<>();
+
+        for (List<Pieza> fila : casillas) {
+            for (Pieza pieza : fila) {
+                if (pieza != null && pieza.getColor() != colorDelJugador) {
+                    piezasEnemigas.add(pieza);
+                }
+            }
+        }
+
+        return piezasEnemigas;
     }
 }

@@ -88,10 +88,11 @@ public class Juego extends Observable {
     public void cambiarTurno() {
         Jugador oponente = (turnoActual == jugadorBlanco) ? jugadorNegro : jugadorBlanco;
 
+        /* TODO: readaptar
         if (tablero.esJaqueMate(oponente.getColor())) {
             terminarPartida(turnoActual);
             return;
-        }
+        }*/
         turnoActual = oponente;
         tablasOfrecidas = false;
         jugadorBlanco.actualizarPoderesDeDuracion();
