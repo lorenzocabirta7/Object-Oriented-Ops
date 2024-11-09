@@ -16,14 +16,6 @@ public abstract class Pieza extends Observable{
         this.escudada = false;
         this.nombre = "";
     }
-    /*TODO: borrar este constructor*/
-    /*public Pieza(Color color, EstadoPieza estadoPieza) {
-        this.color = color;
-        //this.estadoPieza = estadoPieza;
-        this.fueMovida = false;
-        this.congelada = false;
-        this.escudada = false;
-    }*/
 
     public boolean mover(int xOrigen, int yOrigen, int xDestino, int yDestino, Tablero tablero) {
         if (!congelada && this.verificarMovimiento(xOrigen, yOrigen, xDestino, yDestino, tablero)) {
@@ -35,14 +27,7 @@ public abstract class Pieza extends Observable{
 
     public boolean haSidoMovido(){ return fueMovida; }
 
-    public boolean puedeCoronar(int yActual){
-        /* TODO: Moverlo a peon, o ver como hacerlo */
-        return (yActual == 0 || yActual == 7) && esPeon();
-    }
-
-    /*public void coronar(EstadoPieza nuevoEstado){
-        estadoPieza = nuevoEstado;
-    }*/
+    public abstract boolean puedeCoronar(int yActual);
 
     public Color getColor() {
         return color;
@@ -69,7 +54,7 @@ public abstract class Pieza extends Observable{
         notifyObservers();
     }
 
-    /* TODO: borrar estos 3 metodos */
+    /* TODO: borrar estos 2 metodos */
     public boolean esRey() {
         //return estadoPieza.esRey();
         return false;
@@ -77,11 +62,6 @@ public abstract class Pieza extends Observable{
 
     public boolean esTorre() {
         //return estadoPieza.esTorre();
-        return false;
-    }
-
-    public boolean esPeon() {
-        //return estadoPieza.esPeon();
         return false;
     }
 

@@ -8,6 +8,11 @@ public class Caballo extends Pieza {
     }
 
     @Override
+    public boolean puedeCoronar(int yActual) {
+        return false;
+    }
+
+    @Override
     public boolean verificarMovimiento(int xOrigen, int yOrigen, int xDestino, int yDestino, Tablero tablero) {
         int deltaX = Math.abs(xDestino - xOrigen);
         int deltaY = Math.abs(yDestino - yOrigen);

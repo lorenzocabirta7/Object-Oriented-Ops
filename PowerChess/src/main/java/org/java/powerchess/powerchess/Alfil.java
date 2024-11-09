@@ -8,6 +8,11 @@ public class Alfil extends Pieza {
     }
 
     @Override
+    public boolean puedeCoronar(int yActual) {
+        return false;
+    }
+
+    @Override
     public boolean verificarMovimiento(int xOrigen, int yOrigen, int xDestino, int yDestino, Tablero tablero) {
         if (Math.abs(xDestino - xOrigen) != Math.abs(yDestino - yOrigen)) {
             return false;

@@ -309,9 +309,7 @@ public class Tablero extends Observable {
     }
 
     public void coronar(int x, int y, Pieza nuevaPieza) {
-        Pieza piezaActual = this.casillas.get(x).get(y);
-        //piezaActual.coronar(nuevaPieza);
-        /*TODO: aca deberia de cambiar la pieza directamente en el tablero*/
+        this.casillas.get(x).set(y, nuevaPieza);
         setChanged();
     }
 }

@@ -8,6 +8,11 @@ public class Reina extends Pieza {
     }
 
     @Override
+    public boolean puedeCoronar(int yActual) {
+        return false;
+    }
+
+    @Override
     public boolean verificarMovimiento(int xOrigen, int yOrigen, int xDestino, int yDestino, Tablero tablero) {
         if ( (xOrigen != xDestino && yOrigen != yDestino) && (Math.abs(xDestino - xOrigen) != Math.abs(yDestino - yOrigen)) ) {
             // Si no se mueve en linea recta ni en diagonal, devuelvo false

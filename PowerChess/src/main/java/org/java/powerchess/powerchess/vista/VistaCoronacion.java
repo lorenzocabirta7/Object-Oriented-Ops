@@ -31,17 +31,17 @@ public class VistaCoronacion extends VBox implements Observer {
     private Text titulo;
 
     private final HashMap<String, String> imgPiezasBlancas = new HashMap<>() {{
-        put("Torre", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/torreBlanca.png");
-        put("Alfil", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/alfilBlanco.png");
-        put("Caballo", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/caballoBlanco.png");
-        put("Reina", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/reinaBlanca.png");
+        put("Torre", "src/main/java/org/java/powerchess/powerchess/vista/imagenes/torreBlanca.png");
+        put("Alfil", "src/main/java/org/java/powerchess/powerchess/vista/imagenes/alfilBlanco.png");
+        put("Caballo", "src/main/java/org/java/powerchess/powerchess/vista/imagenes/caballoBlanco.png");
+        put("Reina", "src/main/java/org/java/powerchess/powerchess/vista/imagenes/reinaBlanca.png");
     }};
 
     private final HashMap<String, String> imgPiezasNegras = new HashMap<>() {{
-        put("Torre", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/torreNegra.png");
-        put("Alfil", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/alfilNegro.png");
-        put("Caballo", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/caballoNegro.png");
-        put("Reina", "PowerChess/src/main/java/org/java/powerchess/powerchess/vista/imagenes/reinaNegra.png");
+        put("Torre", "src/main/java/org/java/powerchess/powerchess/vista/imagenes/torreNegra.png");
+        put("Alfil", "src/main/java/org/java/powerchess/powerchess/vista/imagenes/alfilNegro.png");
+        put("Caballo", "src/main/java/org/java/powerchess/powerchess/vista/imagenes/caballoNegro.png");
+        put("Reina", "src/main/java/org/java/powerchess/powerchess/vista/imagenes/reinaNegra.png");
     }};
 
     public VistaCoronacion(Juego juego) {

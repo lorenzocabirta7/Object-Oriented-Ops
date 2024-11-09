@@ -9,6 +9,11 @@ public class Peon extends Pieza {
     }
 
     @Override
+    public boolean puedeCoronar(int yActual) {
+        return (yActual == 0 || yActual == 7);
+    }
+
+    @Override
     public boolean verificarMovimiento(int xOrigen, int yOrigen, int xDestino, int yDestino, Tablero tablero) {
         int direccion = (tablero.obtenerPieza(xOrigen, yOrigen).getColor() == Color.BLANCO) ? 1 : -1;
 

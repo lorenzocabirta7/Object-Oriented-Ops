@@ -8,6 +8,11 @@ public class Torre extends Pieza {
     }
 
     @Override
+    public boolean puedeCoronar(int yActual) {
+        return false;
+    }
+
+    @Override
     public boolean verificarMovimiento(int xOrigen, int yOrigen, int xDestino, int yDestino, Tablero tablero) {
         if (xOrigen != xDestino && yOrigen != yDestino) {
             return false;
