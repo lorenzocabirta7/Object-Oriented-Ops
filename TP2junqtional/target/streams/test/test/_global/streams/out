@@ -1,0 +1,15 @@
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(jsonprocessor.JsonProcessorTest, org.scalatest.tools.Framework$$anon$1@33305838, false, [SuiteSelector])[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mJsonProcessorTest:[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- addKey should add a new key-value pair at the specified path[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- addItem should add a new item to the specified array path[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- edit should update the value at the specified path[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- get should return the value at the specified path[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- existsKey should return true if the key exists in the root[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- existsKey should return false if the key does not exist in the root[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mRun completed in 222 milliseconds.[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mTotal number of tests run: 6[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mSuites: completed 1, aborted 0[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mTests: succeeded 6, failed 0, canceled 0, ignored 0, pending 0[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mAll tests passed.[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mPassed tests:[0m
+[0m[[0m[0mdebug[0m] [0m[0m	jsonprocessor.JsonProcessorTest[0m

@@ -1,0 +1,54 @@
+[0m[[0m[0mdebug[0m] [0m[0mCreated transactional ClassFileManager with tempDir = /home/lean13/paradigmas/tp2/TP2junqtional/target/scala-3.3.4/classes.bak[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to delete class files:[0m
+[0m[[0m[0mdebug[0m] [0m[0mWe backup class files:[0m
+[0m[[0m[0mdebug[0m] [0m[0mCreated transactional ClassFileManager with tempDir = /home/lean13/paradigmas/tp2/TP2junqtional/target/scala-3.3.4/classes.bak[0m
+[0m[[0m[0mdebug[0m] [0m[0mAbout to delete class files:[0m
+[0m[[0m[0mdebug[0m] [0m[0mWe backup class files:[0m
+[0m[[0m[0mdebug[0m] [0m[0mRegistering generated classes:[0m
+[0m[[0m[0mdebug[0m] [0m[0m	JsonArray$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	AddItem$package.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Edit$package$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	JsonNull$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	AddItem$package$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	JsonString$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Edit$package.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	ExistsKey$package.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	JsonNull.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	JsonBoolean.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	AddKey$package.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	ExistsKey$package$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	JsonBoolean$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	JsonNumber$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	JsonObject.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Get$package$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	AddKey$package$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	JsonNumber.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	JsonArray.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Get$package.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	JsonString.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	JsonValue.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	JsonObject$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	JsonArray$.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	AddItem$package.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Edit$package$.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	JsonNull$.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	AddItem$package$.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	JsonString$.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Edit$package.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	ExistsKey$package.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	JsonNull.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	JsonBoolean.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	AddKey$package.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	ExistsKey$package$.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	JsonBoolean$.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	JsonNumber$.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	JsonObject.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Get$package$.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	AddKey$package$.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	JsonNumber.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	JsonArray.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Get$package.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	JsonString.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	JsonValue.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	JsonObject$.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0mRemoving the temporary directory used for backing up class files: /home/lean13/paradigmas/tp2/TP2junqtional/target/scala-3.3.4/classes.bak[0m
