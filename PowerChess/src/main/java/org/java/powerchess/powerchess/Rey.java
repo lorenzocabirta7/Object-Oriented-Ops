@@ -42,6 +42,34 @@ public class Rey extends Pieza {
         return false;
     }
 
+    public boolean verSiHayJaqueMate(Tablero tablero) {
+        if (! verSiEstaEnJaque(tablero)) {
+            return false;
+        }
+
+        int tamanioDelTablero = tablero.obtenerTamanioDelTablero();
+        List<Pieza> piezasDelJugador = tablero.obtenerPiezasDelJugador(this.getColor());
+        for (Pieza pieza : piezasDelJugador) {
+            int xOrigen = tablero.obtenerPosicion(pieza, true);
+            int yOrigen = tablero.obtenerPosicion(pieza, false);
+
+            for (int xDestino = 0; xDestino < tamanioDelTablero; xDestino++) {
+                for (int yDestino = 0; yDestino < tamanioDelTablero; yDestino++) {
+                    // Si hay algun movimiento que haga que deje de estar en Jaque, devuelvo false.
+                    if (pieza.mover(xOrigen, yOrigen, xDestino, yDestino, tablero)) {
+                        if ( tablero.simularMovimientoYVerificarQueNoEstaEnJaque(pieza, xDestino, yDestino, this.getColor(), this)) {
+                            // No esta en Jaque
+                            return false;
+                        }
+                    }
+                }
+
+            }
+        }
+
+        return true;
+    }
+
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;

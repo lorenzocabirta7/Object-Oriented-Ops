@@ -5,11 +5,12 @@ import javafx.util.Pair;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
+import java.util.Optional;
 
 public class Tablero extends Observable {
     private List<List<Pieza>> casillas;
     private final int tamanio = 8;
-    private Pair casillaSeleccionada = new Pair<>(-1,-1); // cuando las coordenadas son (-1, -1) no esta seleccionada
+    private Pair<Integer, Integer> casillaSeleccionada = new Pair<>(-1,-1); // cuando las coordenadas son (-1, -1) no esta seleccionada
 
     public Tablero() {
         casillas = new ArrayList<>();
@@ -48,8 +49,6 @@ public class Tablero extends Observable {
         return piezaEnemiga.estaProtegida();
     }
 
-    // TODO: antes de mover una pieza, hay que chequear si el rey esta en jaque. En ese caso,
-    // solo se deben de poder mover las piezas que eviten que el rey caiga en jaque
     public boolean moverPieza(int xOrigen, int yOrigen, int xDestino, int yDestino, Color color) {
         try {
             Pieza pieza;
@@ -73,7 +72,7 @@ public class Tablero extends Observable {
                     return false;
                 }
 
-                if (!simularMovimientoYVerificarQueNoEstaEnJaque(pieza, xDestino, yDestino, color)) {
+                if (!simularMovimientoYVerificarQueNoEstaEnJaque(pieza, xDestino, yDestino, color, null)) {
                     return false;
                 }
 
@@ -98,13 +97,13 @@ public class Tablero extends Observable {
 
     // Si la casilla estaba seleccionada, la deselecciona. Sino, la selecciona.
     public void cambiarSeleccionCasilla(Pair<Integer, Integer> coordenadas) {
-        this.casillaSeleccionada = ( coordenadas.equals(this.casillaSeleccionada) ) ? new Pair(-1, -1) : coordenadas;
+        this.casillaSeleccionada = ( coordenadas.equals(this.casillaSeleccionada) ) ? new Pair<>(-1, -1) : coordenadas;
         setChanged();
         notifyObservers();
     }
 
     public boolean hayUnaCasillaSeleccionada() {
-        return ! this.casillaSeleccionada.equals(new Pair(-1, -1));
+        return ! this.casillaSeleccionada.equals(new Pair<>(-1, -1));
     }
 
     public Pair<Integer, Integer> obtenerCasillaSeleccionada() { return this.casillaSeleccionada; }
@@ -155,43 +154,6 @@ public class Tablero extends Observable {
         }
         return null;
     }
-
-    /* TODO: mover a Rey y readaptar*/
-    /*
-    public boolean esJaqueMate(Color colorDelJugador) {
-        if (!estaEnJaque(colorDelJugador)) {
-            return false;
-        }
-
-        for (List<Pieza> fila : casillas) {
-            for (Pieza pieza : fila) {
-                if (pieza != null && pieza.getColor() == colorDelJugador) {
-                    for (int x = 0; x < tamanio; x++) {
-                        for (int y = 0; y < tamanio; y++) {
-                            Pieza piezaDestino = casillas.get(x).get(y);
-                            int xOrigen = obtenerPosicion(pieza, true);
-                            int yOrigen = obtenerPosicion(pieza, false);
-
-                            if (pieza.mover(xOrigen, yOrigen, x, y, this)) {
-                                casillas.get(x).set(y, pieza);
-                                casillas.get(xOrigen).set(yOrigen, null);
-
-                                if (!estaEnJaque(colorDelJugador)) {
-                                    casillas.get(xOrigen).set(yOrigen, pieza);
-                                    casillas.get(x).set(y, piezaDestino);
-                                    return false;
-                                }
-
-                                casillas.get(xOrigen).set(yOrigen, pieza);
-                                casillas.get(x).set(y, piezaDestino);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return true;
-    }*/
 
     /*TODO: mover a otra clase y readaptar*/
     /*
@@ -261,9 +223,12 @@ public class Tablero extends Observable {
         return -1;
     }
 
-    // False si esta en jaque, True en caso contrario
+    // False si esta en jaque o no se puede mover, True en caso contrario
     // Pone una pieza temporalmente en la casilla destino y verifica que no quede en jaque
-    private boolean simularMovimientoYVerificarQueNoEstaEnJaque(Pieza pieza, int xDestino, int yDestino, Color colorDelJugador) {
+    // Se le puede pasar el Rey, o null y que el metodo se encargue de encuentrar al Rey.
+    public boolean simularMovimientoYVerificarQueNoEstaEnJaque(Pieza pieza, int xDestino, int yDestino, Color colorDelJugador, Rey reyDelJugador) {
+        Optional<Rey> rey = Optional.ofNullable(reyDelJugador);
+
         int xOrigen = obtenerPosicion(pieza, true);
         int yOrigen = obtenerPosicion(pieza, false);
 
@@ -272,9 +237,8 @@ public class Tablero extends Observable {
         casillas.get(xDestino).set(yDestino, pieza);
         casillas.get(xOrigen).set(yOrigen, null);
 
-        Rey rey = (Rey) encontrarRey(colorDelJugador);
-
-        boolean noEstaEnJaque = ! rey.verSiEstaEnJaque(this);
+        Rey piezaRey = rey.orElseGet(() -> (Rey) encontrarRey(colorDelJugador));
+        boolean noEstaEnJaque = ! piezaRey.verSiEstaEnJaque(this);
 
         casillas.get(xOrigen).set(yOrigen, pieza);
         casillas.get(xDestino).set(yDestino, piezaDestinoOriginal);
@@ -304,5 +268,24 @@ public class Tablero extends Observable {
         }
 
         return piezasEnemigas;
+    }
+
+    public List<Pieza> obtenerPiezasDelJugador(Color colorDelJugador) {
+        List<Pieza> piezasDelJugador = new ArrayList<>();
+        for (List<Pieza> fila : casillas) {
+            for (Pieza pieza : fila) {
+                if (pieza != null && pieza.getColor() == colorDelJugador){
+                    piezasDelJugador.add(pieza);
+                }
+            }
+        }
+        return piezasDelJugador;
+    }
+
+    public int obtenerTamanioDelTablero() {return this.tamanio;}
+
+    public boolean esJaqueMate(Color colorDelOponente) {
+        Rey reyEnemigo = (Rey) encontrarRey(colorDelOponente);
+        return reyEnemigo != null && reyEnemigo.verSiHayJaqueMate(this);
     }
 }
