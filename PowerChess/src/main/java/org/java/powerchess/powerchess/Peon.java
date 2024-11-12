@@ -1,8 +1,17 @@
 package org.java.powerchess.powerchess;
 
-public class Peon implements EstadoPieza {
+public class Peon extends Pieza {
     private boolean primerMovimiento = true;
-    private final String nombre = "Peon";
+
+    public Peon(Color color) {
+        super(color);
+        this.nombre = "Peon";
+    }
+
+    @Override
+    public boolean puedeCoronar(int yActual) {
+        return (yActual == 0 || yActual == 7);
+    }
 
     @Override
     public boolean verificarMovimiento(int xOrigen, int yOrigen, int xDestino, int yDestino, Tablero tablero) {
@@ -35,12 +44,4 @@ public class Peon implements EstadoPieza {
         return false;
     }
 
-    @Override
-    public boolean esPeon() {
-        return true;
-    }
-
-    public String getNombre() {
-        return this.nombre;
-    }
 }

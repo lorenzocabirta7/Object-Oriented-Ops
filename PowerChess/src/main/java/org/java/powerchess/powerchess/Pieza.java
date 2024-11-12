@@ -1,25 +1,24 @@
 package org.java.powerchess.powerchess;
 
 import java.util.Observable;
-import java.security.PublicKey;
 
-public class Pieza  extends Observable{
+public abstract class Pieza extends Observable{
     private Color color;
-    private EstadoPieza estadoPieza;
     private boolean fueMovida;
     private boolean congelada;
     private boolean escudada;
+    protected String nombre;
 
-    public Pieza(Color color, EstadoPieza estadoPieza) {
+    public Pieza(Color color) {
         this.color = color;
-        this.estadoPieza = estadoPieza;
         this.fueMovida = false;
         this.congelada = false;
         this.escudada = false;
+        this.nombre = "";
     }
 
     public boolean mover(int xOrigen, int yOrigen, int xDestino, int yDestino, Tablero tablero) {
-        if (!congelada && estadoPieza.verificarMovimiento(xOrigen, yOrigen, xDestino, yDestino, tablero)) {
+        if (!congelada && this.verificarMovimiento(xOrigen, yOrigen, xDestino, yDestino, tablero)) {
             fueMovida = true;
             return true;
         }
@@ -28,15 +27,7 @@ public class Pieza  extends Observable{
 
     public boolean haSidoMovido(){ return fueMovida; }
 
-    public boolean puedeCoronar(int yActual){
-        return (yActual == 0 || yActual == 7) && esPeon();
-    }
-
-    public void coronar(EstadoPieza nuevoEstado){
-        estadoPieza = nuevoEstado;
-
-
-    }
+    public abstract boolean puedeCoronar(int yActual);
 
     public Color getColor() {
         return color;
@@ -63,17 +54,7 @@ public class Pieza  extends Observable{
         notifyObservers();
     }
 
-    public boolean esRey() {
-        return estadoPieza.esRey();
-    }
+    public String getNombre() {return this.nombre;}
 
-    public boolean esTorre() {
-        return estadoPieza.esTorre();
-    }
-
-    public boolean esPeon() {
-        return estadoPieza.esPeon();
-    }
-
-    public String getNombre() {return this.estadoPieza.getNombre();}
+    public abstract boolean verificarMovimiento(int xOrigen, int yOrigen, int xDestino, int yDestino, Tablero tablero);
 }

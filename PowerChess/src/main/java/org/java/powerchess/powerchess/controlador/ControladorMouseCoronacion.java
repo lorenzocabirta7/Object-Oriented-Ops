@@ -7,6 +7,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.util.Pair;
 import org.java.powerchess.powerchess.*;
 import org.java.powerchess.powerchess.vista.VistaCoronacion;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -30,28 +31,36 @@ public class ControladorMouseCoronacion {
         int x = casilla.getKey();
         int y = casilla.getValue();
 
-        ImageView clickedImageView = (ImageView) event.getSource();
+        Color colorDelJugadorActual = juego.obtenerColorDelJugadorActual();
 
-        EstadoPieza nuevoEstado = null;
+        Pieza nuevaPieza = obtenerPiezaSeleccionada(event, colorDelJugadorActual);
 
-        if (clickedImageView == imageViews.get(0)) {
-            nuevoEstado = new Torre();
-        } else if (clickedImageView == imageViews.get(1)) {
-            nuevoEstado = new Alfil();
-        } else if (clickedImageView == imageViews.get(2)) {
-            nuevoEstado = new Caballo();
-        } else if (clickedImageView == imageViews.get(3)) {
-            nuevoEstado = new Reina(new Torre(), new Alfil());
-        } else {
-            // El jugador hizo click en otra parte, no hacer nada
-        }
-
-        if (nuevoEstado != null) {
-            tablero.coronar(x, y, nuevoEstado);
+        if (nuevaPieza != null) {
+            tablero.coronar(x, y, nuevaPieza);
             panelVisible = false;
             juego.cambiarTurno();
         }
 
+    }
+
+    @Nullable
+    private Pieza obtenerPiezaSeleccionada(MouseEvent event, Color colorDelJugadorActual) {
+        ImageView clickedImageView = (ImageView) event.getSource();
+
+        Pieza nuevaPieza = null;
+
+        if (clickedImageView == imageViews.get(0)) {
+            nuevaPieza = new Torre(colorDelJugadorActual);
+        } else if (clickedImageView == imageViews.get(1)) {
+            nuevaPieza = new Alfil(colorDelJugadorActual);
+        } else if (clickedImageView == imageViews.get(2)) {
+            nuevaPieza = new Caballo(colorDelJugadorActual);
+        } else if (clickedImageView == imageViews.get(3)) {
+            nuevaPieza = new Reina(colorDelJugadorActual);
+        } else {
+            // El jugador hizo click en otra parte, no hacer nada
+        }
+        return nuevaPieza;
     }
 
 }
