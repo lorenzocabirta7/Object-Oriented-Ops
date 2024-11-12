@@ -1,13 +1,10 @@
 package operaciones
 
-import scala.util.parsing.json._
-
-def edit(parsedJson: String, path: List[String], value: String) = {
-  val json = JSON.parseFull(parsedJson).getOrElse(Map.empty[String, Any]) // no estoy seguro
-  val updatedJson = editAtPath(json, path, value)
+def edit(parsedJson: Map[String, Any], path: List[String], value: String) = {
+  editAtPath(parsedJson, path, value).asInstanceOf[Map[String, Any]]
 }
 
-private def editAtPath(json: Any, path: List[String], value: String) = path match{
+private def editAtPath(json: Any, path: List[String], value: String): Any = path match {
   case Nil => json
   case head :: Nil => json match {
     case map: Map[String, Any] => map + (head -> value)

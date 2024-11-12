@@ -1,13 +1,10 @@
 package operaciones
 
-import scala.util.parsing.json._
-
-def addKey(parsedJson: String, path: List[String], key: String, value: Any) = {
-  val json = JSON.parseFull(parsedJson).getOrElse(Map.empty[String, Any]) // no estoy seguro
-  val updatedJson = addKeyAtPath(json, pathList, key, value)
+def addKey(parsedJson: Map[String, Any], path: List[String], key: String, value: Any) = {
+  addKeyAtPath(parsedJson, path, key, value)
 }
 
-private def addKeyAtPath(json: Any, path: List[String], key: String, value: Any) = path match {
+private def addKeyAtPath(json: Any, path: List[String], key: String, value: Any): Any = path match {
   case Nil => json
   case head :: Nil => json match {
     case map: Map[String, Any] =>

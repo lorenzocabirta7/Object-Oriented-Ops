@@ -4,6 +4,7 @@ import scala.io.Source
 import java.io.File
 import scala.io.StdIn.readLine
 import interprete._
+import lector._
 import operaciones._
 
 object Main {
@@ -16,6 +17,6 @@ object Main {
     val parsedJson = procesarInput(argumentos)
     val resultado = interpretarOperacion(parsedJson, operacion, argumentos)
 
-    resultado.foreach(println)
+    println(resultado)
   }
 }
