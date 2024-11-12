@@ -1,5 +1,7 @@
 package org.java.powerchess.powerchess;
 
+import java.util.Objects;
+
 public class Torre extends Pieza {
 
     public Torre(Color color) {
@@ -23,4 +25,14 @@ public class Torre extends Pieza {
         return false;
     }
 
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Torre other = (Torre) obj;
+        return (Objects.equals(this.getColor(), other.getColor()));
+    }
 }

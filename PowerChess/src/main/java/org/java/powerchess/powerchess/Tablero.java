@@ -60,13 +60,24 @@ public class Tablero extends Observable {
             }
 
             Pieza piezaDestino = obtenerPieza(xDestino, yDestino);
-            // TODO: reimplementar logica del enroque
-            /*
+
             if (!hayPiezaEnemiga(xDestino, yDestino, color) && piezaDestino != null) {
-                if ((pieza.esTorre() && piezaDestino.esRey()) || (pieza.esRey() && piezaDestino.esTorre())) {
-                    return hacerEnroque(color, xOrigen, xDestino);
+                Enroque enroque = new Enroque();
+                Pair<Integer, Integer> posicionesFinales = enroque.hacerEnroque(pieza, piezaDestino, this);
+                if ( posicionesFinales != null ) {
+                    /* Al enrocar, no varia la posicion del eje y */
+
+                    casillas.get(posicionesFinales.getKey()).set(yOrigen, pieza);
+                    casillas.get(xOrigen).set(yOrigen, null);
+
+                    casillas.get(posicionesFinales.getValue()).set(yOrigen, piezaDestino);
+                    casillas.get(xDestino).set(yOrigen, null);
+
+                    setChanged();
+                    return true;
                 }
-            }*/
+
+            }
             if (pieza.mover(xOrigen, yOrigen, xDestino, yDestino, this)) {
                 if (hayPiezaEnemiga(xDestino, yDestino, color) && piezaEnemigaEscudada(xDestino, yDestino)) {
                     return false;
@@ -154,63 +165,6 @@ public class Tablero extends Observable {
         }
         return null;
     }
-
-    /*TODO: mover a otra clase y readaptar*/
-    /*
-
-    private boolean _esEnroqueCorto(int xTorre, int xRey) {
-        return Math.abs( xTorre - xRey ) == 3 ;
-    }
-
-    public boolean puedeHacerEnroque(Color colorDelJugador, boolean enroqueCorto) {
-        Pieza rey = encontrarRey(colorDelJugador);
-        if (rey == null || rey.haSidoMovido()) return false;
-
-        int filaRey = (colorDelJugador == Color.BLANCO) ? 0 : 7;
-        int columnaRey = 3;
-        int columnaTorre = enroqueCorto ? 0 : 7;
-        int direccion = enroqueCorto ? -1 : 1;
-
-        Pieza torre = casillas.get(columnaTorre).get(filaRey);
-
-        if (!torre.esTorre() || torre.haSidoMovido() || estaEnJaque(colorDelJugador)) {
-            return false;
-        }
-
-        for (int i = columnaRey + direccion; i != columnaTorre; i += direccion) {
-            if (casillas.get(i).get(filaRey) != null) return false;
-        }
-
-        int destino = columnaRey + 2 * direccion;
-        for (int i = columnaRey; i != destino + direccion; i += direccion) {
-            if (! simularMovimientoYVerificarQueNoEstaEnJaque(rey, i, filaRey, colorDelJugador)) return false;
-        }
-
-        return true;
-    }
-
-    // Pre: Origen y Destino son las coordenadas en el eje x del rey y la torre, no importa el orden.
-    public boolean hacerEnroque(Color colorDelJugador, int xOrigen, int xDestino) {
-        boolean enroqueCorto = _esEnroqueCorto(xOrigen, xDestino);
-        if (puedeHacerEnroque(colorDelJugador, enroqueCorto)) {
-            Pieza rey = encontrarRey(colorDelJugador);
-            int filaRey = (colorDelJugador == Color.BLANCO) ? 0 : 7;
-            int columnaRey = 3;
-            int direccion = enroqueCorto ? -1 : 1;
-
-            casillas.get(columnaRey + 2 * direccion).set(filaRey, rey);
-            casillas.get(columnaRey).set(filaRey, null);
-
-            int columnaTorre = enroqueCorto ? 0 : 7;
-            Pieza torre = casillas.get(columnaTorre).get(filaRey);
-            casillas.get(columnaRey + direccion).set(filaRey, torre);
-            casillas.get(columnaTorre).set(filaRey, null);
-
-            setChanged();
-            return true;
-        }
-        return false;
-    }*/
 
     public int obtenerPosicion(Pieza pieza, boolean obtenerX) {
         for (int x = 0; x < tamanio; x++) {
