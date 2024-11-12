@@ -45,7 +45,6 @@ public class App extends Application {
     primaryStage.setScene(scene);
     primaryStage.show();
 
-    // TODO: Hardcodeado
     Juego juego = new Juego(new Jugador("jugador blanco", Color.BLANCO), new Jugador("jugador negro", Color.NEGRO));
 
     // Busca el id del gridPane en el FXML

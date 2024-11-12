@@ -54,17 +54,6 @@ public abstract class Pieza extends Observable{
         notifyObservers();
     }
 
-    /* TODO: borrar estos 2 metodos */
-    public boolean esRey() {
-        //return estadoPieza.esRey();
-        return false;
-    }
-
-    public boolean esTorre() {
-        //return estadoPieza.esTorre();
-        return false;
-    }
-
     public String getNombre() {return this.nombre;}
 
     public abstract boolean verificarMovimiento(int xOrigen, int yOrigen, int xDestino, int yDestino, Tablero tablero);

@@ -72,7 +72,6 @@ public class VistaCasilla extends StackPane implements Observer {
         Tablero tablero = this.juego.obtenerTablero();
         Pieza pieza = tablero.obtenerPieza(casillaActual.getKey(), this.casillaActual.getValue());
         
-        // TODO: agregar un chequeo aca respecto al color de la pieza
         if ( tablero.casillaEstaSeleccionada(this.casillaActual) && pieza != null) {
           
             this.setBackground(Background.fill(new javafx.scene.paint.Color(0,0,1,0.2)));
