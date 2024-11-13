@@ -2,9 +2,9 @@ package lector
 
 import scala.io.Source
 import java.io.File
+import interprete.parse 
 
-def procesarInput(argumentos: Array[String]) = {
-  // me fijo si el primer argumento es un archivo, sino leo por entrada estandar
+def procesarInput(argumentos: Array[String]): Map[String, Any] = {
   val jsonInput = if (argumentos.nonEmpty && new File(argumentos(0)).exists) {
     val filePath = argumentos(0)
     Source.fromFile(filePath).getLines().mkString
@@ -14,12 +14,17 @@ def procesarInput(argumentos: Array[String]) = {
   verificarJson(jsonInput)
 }
 
-private def verificarJson(jsonInput: String) = {
-  val json = parseJson(jsonInput) match {
+private def verificarJson(jsonInput: String): Map[String, Any] = {
+  parseJson(jsonInput) match {
     case Some(parsedJson) => parsedJson
-    case _ => throw Exception("Error: formato de JSON invalido.")
+    case None => throw new Exception("Error: formato de JSON inválido.")
   }
 }
 
-private def parseJson(input: String) = {
+private def parseJson(input: String): Option[Map[String, Any]] = {
+  try {
+    Some(parse(input).asInstanceOf[Map[String, Any]])
+  } catch {
+    case _: Throwable => None
+  }
 }
