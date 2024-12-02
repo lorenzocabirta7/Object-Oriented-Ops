@@ -8,7 +8,10 @@ private def addKeyAtPath(json: Any, path: List[String], key: String, value: Any)
   case Nil => json
   case head :: Nil => json match {
     case map: Map[String, Any] =>
-      map + (head -> (map.getOrElse(head, Map.empty[String, Any]).asInstanceOf[Map[String, Any]] + (key -> value)))
+      map.getOrElse(head, Map.empty[String, Any]) match {
+        case lista : List[_] => map + (head -> (lista ::: List(value)))
+        case _ => map + (head -> (map.getOrElse(head, Map.empty[String, Any]).asInstanceOf[Map[String, Any]] + (key -> value)))
+      }
     case _ => json
   }
   case head :: tail => json match {
