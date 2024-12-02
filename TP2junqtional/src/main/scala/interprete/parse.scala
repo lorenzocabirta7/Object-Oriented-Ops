@@ -1,75 +1,71 @@
 package interprete
-import scala.util.Try
-import scala.util.control.Breaks._
+
 def parse(json: String): Any = {
   val trimmed = json.trim
-  if (trimmed.startsWith("{")) parseObject(trimmed)
-  else if (trimmed.startsWith("[")) parseArray(trimmed)
-  else parseValue(trimmed)
-}
-
-def parseObject(json: String): Map[String, Any] = {
-  var remaining = json.drop(1).trim
-  val map = scala.collection.mutable.Map[String, Any]()
-  while (!remaining.startsWith("}")) {
-    val (key, restAfterKey) = parseString(remaining)
-    remaining = restAfterKey.dropWhile(_ != ':').tail.trim
-    val (value, restAfterValue) = parseValue(remaining)
-    map += (key -> value)
-    remaining = restAfterValue.dropWhile(c => c == ',' || c.isWhitespace)
+  trimmed.headOption match {
+    case Some('{') => parseObjeto(trimmed)._1
+    case Some('[') => parseArray(trimmed)._1
+    case _ => parseValor(trimmed)._1
   }
-  map.toMap
 }
 
-def parseArray(json: String): List[Any] = {
-  var remaining = json.drop(1).trim
-  val list = scala.collection.mutable.ListBuffer[Any]()
-  while (!remaining.startsWith("]")) {
-    val (value, restAfterValue) = parseValue(remaining)
-    list += value
-    remaining = restAfterValue.dropWhile(c => c == ',' || c.isWhitespace)
-  }
-  list.toList
+private def parseObjeto(json: String): (Map[String, Any], String) = {
+  val (campos, resto) = parseCampos(json.drop(1).trim)
+  (campos, resto.dropWhile(_ != '}').tail.trim)
 }
 
-def parseValue(json: String): (Any, String) = {
-  val trimmed = json.trim
-  if (trimmed.startsWith("\"")) parseString(trimmed)
-  else if (trimmed.startsWith("{")) (parseObject(trimmed), trimmed.drop(findMatchingBrace(trimmed)))
-  else if (trimmed.startsWith("[")) (parseArray(trimmed), trimmed.drop(findMatchingBrace(trimmed)))
-  else if (trimmed.startsWith("true")) (true, trimmed.drop(4))
-  else if (trimmed.startsWith("false")) (false, trimmed.drop(5))
-  else if (trimmed.startsWith("null")) (null, trimmed.drop(4))
-  else parseNumber(trimmed)
+private def parseCampos(restante: String): (Map[String, Any], String) = restante.headOption match {
+  case Some('}') => (Map.empty, restante.tail.trim)
+  case Some(_) =>
+    val (clave, dspClave) = parseString(restante)
+    val (_, dspCaracter) = consumeChar(dspClave, ':')
+    val (valor, dspValor) = parseValor(dspCaracter)
+    val (_, dspComa) = consumeChar(dspValor, ',')
+    val (mapaRest, stringRest) = parseCampos(dspComa)
+    (mapaRest + (clave -> valor), stringRest)
+  case None => (Map.empty, "")
 }
 
-def parseString(json: String): (String, String) = {
+private def parseString(json: String): (String, String) = {
   val endIdx = json.indexOf('"', 1)
   (json.substring(1, endIdx), json.substring(endIdx + 1).trim)
 }
 
-def parseNumber(json: String): (Any, String) = {
+private def consumeChar(json: String, expected: Char): (Unit, String) =
+  json.headOption.filter(_ == expected) match {
+    case Some(_) => ((), json.tail.trim)
+    case None => ((), json)
+  }
+
+private def parseValor(json: String): (Any, String) = json.trim.headOption match {
+  case Some('"') => parseString(json)
+  case Some('{') => parseObjeto(json)
+  case Some('[') => parseArray(json)
+  case Some('t') if json.startsWith("true") => (true, json.drop(4).trim)
+  case Some('f') if json.startsWith("false") => (false, json.drop(5).trim)
+  case Some('n') if json.startsWith("null") => (null, json.drop(4).trim)
+  case Some(_) => parseNumber(json)
+  case None => (None, "")
+}
+
+private def parseArray(json: String): (List[Any], String) = {
+  val (items, rest) = parseItems(json.drop(1).trim)
+  (items, rest.trim)
+}
+
+private def parseItems(remaining: String): (List[Any], String) = remaining.headOption match {
+  case Some(']') => (Nil, remaining.tail.trim)
+  case Some(_) =>
+    val (value, afterValue) = parseValor(remaining)
+    val (_, afterComma) = consumeChar(afterValue, ',')
+    val (restItems, restString) = parseItems(afterComma)
+    (value :: restItems, restString)
+  case None => (Nil, "")
+}
+
+private def parseNumber(json: String): (Any, String) = {
   val numberEnd = json.indexWhere(c => !c.isDigit && c != '.' && c != '-')
   val numberStr = if (numberEnd == -1) json else json.substring(0, numberEnd)
-  val number = Try(numberStr.toInt).getOrElse(numberStr.toDouble)
+  val number = scala.util.Try(numberStr.toInt).getOrElse(numberStr.toDouble)
   (number, json.drop(numberStr.length).trim)
 }
-
-def findMatchingBrace(json: String): Int = {
-  var count = 0
-  var position = json.length
-
-  breakable {
-    for (i <- json.indices) {
-      if (json(i) == '{' || json(i) == '[') count += 1
-      else if (json(i) == '}' || json(i) == ']') count -= 1
-
-      if (count == 0) {
-        position = i + 1
-        break
-      }
-    }
-  }
-  position
-}
-
