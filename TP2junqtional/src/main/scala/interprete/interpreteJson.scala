@@ -20,3 +20,7 @@ private def parsePath(path: String) = path match {
   case x if x.head == '.' => path.tail.split("\\.").toList
   case _ => path.split("\\.").toList
 }
+
+def imprimirResultadoEnJson(resultado: Map[String, Any]): String = {
+  mapToJsonString(resultado)
+}

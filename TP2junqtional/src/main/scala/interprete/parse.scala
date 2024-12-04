@@ -72,36 +72,36 @@ private def parseNumber(json: String): (Any, String) = {
 
 // -------------------
 
-def mapToJson(map: Map[String, Any]): String = {
+def mapToJsonString(map: Map[String, Any]): String = {
   val camposJson = map.map {
     case (key, value) =>
       val jsonValue = value match {
-        case m: Map[_, _] => mapToJson(m.asInstanceOf[Map[String, Any]])
-        case l: List[_]   => listToJson(l)
-        case s: String    => s""""$s""""
-        case true         => "true"
-        case false        => "false"
-        case null         => "null"
-        case n: Number    => n.toString
-        case _            => value.toString
+        case m: Map[_, _] => mapToJsonString(m.asInstanceOf[Map[String, Any]])
+        case l: List[_]   => listToJsonString(l)
+        case s: String    => s"\"$s\""
+        case true         => "\"true\""
+        case false        => "\"false\""
+        case null         => "null" // null no lleva comillas en JSON
+        case n: Number    => s"\"$n\""
+        case _            => s"\"$value\""
       }
-      s""""$key": $jsonValue""" 
+      s"\"$key\": $jsonValue"
   }.mkString("{", ",", "}")
 
   camposJson
 }
 
 
-def listToJson(list: List[Any]): String = {
+def listToJsonString(list: List[Any]): String = {
   list.map {
-    case m: Map[_, _] => mapToJson(m.asInstanceOf[Map[String, Any]])
-    case l: List[_]   => listToJson(l)
-    case s: String    => s""""$s""""
-    case true         => "true"
-    case false        => "false"
+    case m: Map[_, _] => mapToJsonString(m.asInstanceOf[Map[String, Any]])
+    case l: List[_]   => listToJsonString(l)
+    case s: String    => s"\"$s\""
+    case true         => "\"true\""
+    case false        => "\"false\""
     case null         => "null"
-    case n: Number    => n.toString
-    case value        => value.toString
+    case n: Number    => s"\"$n\""
+    case value        => s"\"$value\""
   }.mkString("[", ",", "]")
 }
 
