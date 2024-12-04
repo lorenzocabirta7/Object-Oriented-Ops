@@ -5,13 +5,19 @@ import java.io.File
 import interprete.parse 
 
 def procesarInput(argumentos: Array[String]): Map[String, Any] = {
-  val jsonInput = if (argumentos.nonEmpty && new File(argumentos(0)).exists) {
-    val filePath = argumentos(0)
-    Source.fromFile(filePath).getLines().mkString
-  } else {
-    io.StdIn.readLine()
+
+  argumentos.match{
+    case x if x.nonEmpty =>
+      val jsonInput = System.console() match {
+        case null =>
+          Source.stdin.mkString
+        case _ =>
+          io.StdIn.readLine()
+      }
+      verificarJson(jsonInput)
+    case _ => throw new Exception("Error: Cantidad de argumentos inválida.")
   }
-  verificarJson(jsonInput)
+  
 }
 
 private def verificarJson(jsonInput: String): Map[String, Any] = {

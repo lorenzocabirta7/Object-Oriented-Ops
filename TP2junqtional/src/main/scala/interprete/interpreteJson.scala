@@ -4,7 +4,7 @@ import operaciones._
 
 def interpretarOperacion(parsedJson: Map[String, Any] , operacion: String, argumentos: Array[String]) = operacion match {
   case path if path.startsWith(".") => getValueAtPath(parsedJson, path)
-  case "add-key" => addKey(parsedJson, parsePath(argumentos(1)), argumentos(1), argumentos(2))
+  case "add-key" => addKey(parsedJson, parsePath(argumentos(0)), argumentos(1), argumentos(2))
   case "add-item" => addItem(parsedJson, parsePath(argumentos(0)), argumentos(1))
   case "delete" => delete(parsedJson, parsePath(argumentos(0)))
   case "edit" => edit(parsedJson, parsePath(argumentos(0)), argumentos(1))
