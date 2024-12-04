@@ -21,6 +21,8 @@ private def parsePath(path: String) = path match {
   case _ => path.split("\\.").toList
 }
 
-def imprimirResultadoEnJson(resultado: Map[String, Any]): String = {
-  mapToJsonString(resultado)
+def imprimirResultadoEnJson(resultado: Any): String = resultado match {
+  case m: Map[String, Any] => mapToJsonString(m)
+  case l: List[_] => listToJsonString(l)
+  case n if n == None => ""
 }

@@ -16,9 +16,9 @@ object Main {
 
     val parsedJson = procesarInput(argumentos)
 
-    val resultadoComoMap = interpretarOperacion(parsedJson, operacion, argumentos)
+    val resultadoAsAny = interpretarOperacion(parsedJson, operacion, argumentos)
 
-    val resultadoEnJSONString = imprimirResultadoEnJson(resultadoComoMap.asInstanceOf[Map[String, Any]]) 
+    val resultadoEnJSONString = imprimirResultadoEnJson(resultadoAsAny) 
     
     println( resultadoEnJSONString )
   }
