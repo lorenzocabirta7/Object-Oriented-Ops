@@ -1,0 +1,12 @@
+{
+  "nombre": "jorge",
+  "edad": 40,
+  "mascotas": [
+    "perrito",
+    "gatito"
+  ],
+  "parientes": {
+    "padre": "Luis",
+    "madre": "Ester"
+  }
+}

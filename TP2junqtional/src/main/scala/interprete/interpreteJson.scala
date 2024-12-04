@@ -15,6 +15,14 @@ def interpretarOperacion(parsedJson: Map[String, Any] , operacion: String, argum
   case _ => throw Exception(s"Error: La operacion '$operacion' no existe.")
 }
 
-private def parsePath(path: String) = {
-  path.split("\\.").toList
+private def parsePath(path: String) = path match {
+  //path.split("\\.").toList
+  case x if x.head == '.' => path.tail.split("\\.").toList
+  case _ => path.split("\\.").toList
+}
+
+def imprimirResultadoEnJson(resultado: Any): String = resultado match {
+  case m: Map[String, Any] => mapToJsonString(m)
+  case l: List[_] => listToJsonString(l)
+  case n if n == None => ""
 }

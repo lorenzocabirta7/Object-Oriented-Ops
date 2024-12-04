@@ -8,7 +8,16 @@ private def addKeyAtPath(json: Any, path: List[String], key: String, value: Any)
   case Nil => json
   case head :: Nil => json match {
     case map: Map[String, Any] =>
-      map + (head -> (map.getOrElse(head, Map.empty[String, Any]).asInstanceOf[Map[String, Any]] + (key -> value)))
+      val clave = head match {
+        case "" => key
+        case _ => head
+      }
+      val temporal = map.getOrElse(clave, Map.empty[String, Any])
+      map.getOrElse(clave, Map.empty[String, Any]) match {
+        case lista : List[_] => map + (clave -> (lista ::: List(value)))
+        case vacio: Map[_, _] if vacio.isEmpty => map + (clave -> value)
+        case _ => map + (clave -> (map.getOrElse(clave, Map.empty[String, Any]).asInstanceOf[Map[String, Any]] + (key -> value)))
+      }
     case _ => json
   }
   case head :: tail => json match {
@@ -18,5 +27,4 @@ private def addKeyAtPath(json: Any, path: List[String], key: String, value: Any)
     case _ => json
   }
 }
-
 

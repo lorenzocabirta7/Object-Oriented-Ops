@@ -1,4 +1,4 @@
-[warn] scala3-library_3-3.3.4-sources.jar no longer exists at /home/lean13/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala3-library_3/3.3.4/scala3-library_3-3.3.4-sources.jar
+[warn] scala3-library_3-3.3.4-sources.jar no longer exists at /home/lorenzocabirta/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala3-library_3/3.3.4/scala3-library_3-3.3.4-sources.jar
 [debug] not up to date. inChanged = false, force = false
-[debug] Updating ProjectRef(uri("file:/home/lorenzocabirta/Facultad/Object-Oriented-Ops/TP2junqtional/"), "root")...
-[debug] Done updating ProjectRef(uri("file:/home/lorenzocabirta/Facultad/Object-Oriented-Ops/TP2junqtional/"), "root")
+[debug] Updating ProjectRef(uri("file:/run/media/jmiranda/Datos/FACULTAD/Algoritmos%20III/Brasburg_2024/Object-Oriented-Ops/TP2junqtional/"), "root")...
+[debug] Done updating ProjectRef(uri("file:/run/media/jmiranda/Datos/FACULTAD/Algoritmos%20III/Brasburg_2024/Object-Oriented-Ops/TP2junqtional/"), "root")

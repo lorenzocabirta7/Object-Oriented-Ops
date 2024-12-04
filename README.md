@@ -21,4 +21,4 @@ Para compilar y Ejecutar el Programa
 
 sbt "run <operacion> <argumentos>"
 
-Ejemplo: sbt "run add-key path/to/input.json .path.to.key newKey newValue"
+Ejemplo: sbt "run add-key .path.to.key newKey newValue"

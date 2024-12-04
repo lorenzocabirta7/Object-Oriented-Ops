@@ -16,8 +16,10 @@ object Main {
 
     val parsedJson = procesarInput(argumentos)
 
-    val resultado = interpretarOperacion(parsedJson, operacion, argumentos)
+    val resultadoAsAny = interpretarOperacion(parsedJson, operacion, argumentos)
 
-    println(resultado)
+    val resultadoEnJSONString = imprimirResultadoEnJson(resultadoAsAny) 
+    
+    println( resultadoEnJSONString )
   }
 }
